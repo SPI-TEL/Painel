@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>PAINEL DE CONTROLE - SPI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ffffff;
+    }
+    .header {
+      background-color: #0b4f9c;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 22px;
+      font-weight: bold;
+      position: relative;
+    }
+    .btn-logout {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      background: #d9534f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      padding: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .card {
+      background: linear-gradient(180deg, #12417d 0%, #081d38 100%);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    }
+    .card img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+    .card span {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  PAINEL DE CONTROLE - SPI
+  <button class="btn-logout" onclick="logout()">Sair</button>
+</div>
+
+<div class="grid-container">
+
+  <!-- Link 1: Furto e Vandalismo (Figura 1) -->
+  <a href="https://seu-usuario.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="Icone">
+    <span>BAIRROS CRÍTICOS</span>
+  </a>
+
+  <!-- Link 2: Desempenho Coordenacao -->
+  <a href="https://seu-usuario.github.io/Desempenho-Coordena-o-SPI/" class="card" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png" alt="Icone">
+    <span>B2B</span>
+  </a>
+
+  <!-- Link 3: Desempenho Regionais -->
+  <a href="https://seu-usuario.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/3106/3106720.png" alt="Icone">
+    <span>CONTROLE GMG</span>
+  </a>
+
+  <!-- Link 4: Analise TAs -->
+  <a href="https://seu-usuario.github.io/An-lise-TAs---Causas-de-Perda/" class="card" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Icone">
+    <span>TA - CAUSA PERDA</span>
+  </a>
+
+</div>
+
+<script>
+  // Proteção simples da página: verifica se o usuário fez login
+  if (!localStorage.getItem("usuario_logado")) {
+    alert("Acesso restrito. Por favor, faça login.");
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("usuario_logado");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
