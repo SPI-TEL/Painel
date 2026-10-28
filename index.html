@@ -94,7 +94,7 @@
     }
 
     /* Animação e estilo dos ícones */
-    .card img {
+    .card img, .card svg {
       width: 52px;
       height: 52px;
       margin-bottom: 12px;
@@ -102,7 +102,7 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
 
-    .card:hover img {
+    .card:hover img, .card:hover svg {
       transform: scale(1.12) translateY(-3px);
       filter: drop-shadow(0 4px 8px rgba(0,162,255,0.5));
     }
@@ -117,7 +117,7 @@
     }
 
     .card:hover span {
-      color: #38ef7d; /* Destaque sutil de cor no texto ao passar o mouse */
+      color: #38ef7d;
     }
   </style>
 </head>
@@ -162,14 +162,14 @@
 
   <!-- Link 6: HL5 (Com ícone SVG de Torre de Telecomunicação) -->
   <a href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
-    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); transition: transform 0.35s ease;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <!-- Torre -->
       <path d="M12 2L5 22h14L12 2z"></path>
       <path d="M7 17h10"></path>
       <path d="M8.5 12h7"></path>
       <path d="M10 7h4"></path>
       <!-- Ondas de Sinal -->
-      <path d="M17 4b4 4 0 0 1 0 5"></path>
+      <path d="M17 4a4 4 0 0 1 0 5"></path>
       <path d="M7 4a4 4 0 0 0 0 5"></path>
       <path d="M19 2a8 8 0 0 1 0 9"></path>
       <path d="M5 2a8 8 0 0 0 0 9"></path>
@@ -181,6 +181,16 @@
   <a href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2092/2092063.png" alt="USCA - Modernização">
     <span>USCA - MODERNIZAÇÃO</span>
+  </a>
+
+  <!-- Link 8: NC/COR (Não Conformidade / Correção) -->
+  <a href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+      <path d="m9 14 2 2 4-4"></path>
+    </svg>
+    <span>NC/COR</span>
   </a>
 
 </div>
