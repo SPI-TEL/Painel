@@ -23,7 +23,6 @@
       position: relative;
     }
 
-    /* Linhas de malha cibernética futurística sutil no fundo branco */
     body::before {
       content: "";
       position: fixed;
@@ -154,9 +153,9 @@
       justify-content: center;
       min-height: 145px;
       overflow: hidden;
+      cursor: pointer;
     }
 
-    /* Brilho neon de fundo interno no card */
     .card::before {
       content: '';
       position: absolute;
@@ -169,7 +168,6 @@
       z-index: 0;
     }
 
-    /* Efeito de neon vibrante ao passar o mouse */
     .card:hover {
       transform: translateY(-6px) scale(1.02);
       border-color: #00e1ff;
@@ -179,7 +177,25 @@
         inset 0 0 14px rgba(0, 225, 255, 0.2);
     }
 
-    /* Ícones das aplicações (SVG e PNG) */
+    /* BADGE EM CONSTRUÇÃO / EM BREVE */
+    .badge-construcao {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 170, 0, 0.15);
+      border: 1px solid rgba(255, 187, 0, 0.5);
+      color: #ffcc00;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+      z-index: 2;
+    }
+
+    /* ÍCONES */
     .card svg {
       width: 52px;
       height: 52px;
@@ -190,23 +206,14 @@
       filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.5));
     }
 
-    .card img {
-      width: 52px;
-      height: 52px;
-      margin-bottom: 14px;
-      z-index: 1;
-      transition: transform 0.35s ease, filter 0.35s ease;
-      filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.4));
-    }
-
-    .card:hover svg, .card:hover img {
+    .card:hover svg {
       transform: scale(1.12) translateY(-2px);
       stroke: #ffffff;
       filter: drop-shadow(0 0 14px #00ffff);
     }
 
-    /* Texto do card */
-    .card span {
+    /* TEXTO DO CARD */
+    .card span.card-title {
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.9px;
@@ -217,9 +224,41 @@
       line-height: 1.4;
     }
 
-    .card:hover span {
+    .card:hover span.card-title {
       color: #00ffff;
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    /* TOAST / ALERTA DE EM CONSTRUÇÃO */
+    #toast-construcao {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(7, 19, 36, 0.95);
+      border: 1px solid rgba(255, 187, 0, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(255, 187, 0, 0.25);
+      backdrop-filter: blur(12px);
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #toast-construcao.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    #toast-construcao i {
+      color: #ffcc00;
+      font-size: 16px;
     }
 
     @media (max-width: 768px) {
@@ -265,7 +304,7 @@
       <line x1="2" y1="12" x2="22" y2="12"></line>
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
     </svg>
-    <span>Desempenho Regionais</span>
+    <span class="card-title">Desempenho Regionais</span>
   </a>
 
   <!-- 2. Horas Extras (Oculto para Supervisor) -->
@@ -274,7 +313,7 @@
       <circle cx="12" cy="12" r="10"></circle>
       <polyline points="12 6 12 12 16 14"></polyline>
     </svg>
-    <span>Horas Extras</span>
+    <span class="card-title">Horas Extras</span>
   </a>
 
   <!-- 3. Controle GMG -->
@@ -288,7 +327,7 @@
       <path d="M12 16a4 4 0 0 1 4 4v2"></path>
       <path d="M12 16a4 4 0 0 0-4 4v2"></path>
     </svg>
-    <span>Controle GMG</span>
+    <span class="card-title">Controle GMG</span>
   </a>
 
   <!-- 4. NC/COR -->
@@ -298,7 +337,7 @@
       <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
       <path d="m9 14 2 2 4-4"></path>
     </svg>
-    <span>NC/COR</span>
+    <span class="card-title">NC/COR</span>
   </a>
 
   <!-- 5. Furto e Vandalismo -->
@@ -308,7 +347,7 @@
       <line x1="12" y1="9" x2="12" y2="13"></line>
       <line x1="12" y1="17" x2="12.01" y2="17"></line>
     </svg>
-    <span>Furto e Vandalismo</span>
+    <span class="card-title">Furto e Vandalismo</span>
   </a>
 
   <!-- 6. TA - Causa Perda -->
@@ -319,7 +358,7 @@
       <line x1="9" y1="12" x2="15" y2="12"></line>
       <line x1="9" y1="16" x2="13" y2="16"></line>
     </svg>
-    <span>TA - Causa Perda</span>
+    <span class="card-title">TA - Causa Perda</span>
   </a>
 
   <!-- 7. HL5 -->
@@ -334,7 +373,7 @@
       <path d="M19 2a8 8 0 0 1 0 9"></path>
       <path d="M5 2a8 8 0 0 0 0 9"></path>
     </svg>
-    <span>HL5</span>
+    <span class="card-title">HL5</span>
   </a>
 
   <!-- 8. USCA - Modernização -->
@@ -344,29 +383,47 @@
       <circle cx="8.5" cy="8.5" r="1.5"></circle>
       <polyline points="21 15 16 10 5 21"></polyline>
     </svg>
-    <span>USCA - Modernização</span>
+    <span class="card-title">USCA - Modernização</span>
   </a>
 
-  <!-- 9. Sobressalentes (Exclusivo para Supervisores e Administradores) -->
-  <a id="card-sobressalentes" href="https://spi-tel.github.io/Sobressalentes/" class="card" target="_blank">
+  <!-- 9. Sobressalentes (Em Construção) -->
+  <a id="card-sobressalentes" class="card" onclick="moduloEmConstrucao('Sobressalentes')">
+    <div class="badge-construcao">Em Breve</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
       <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
       <line x1="12" y1="22.08" x2="12" y2="12"></line>
     </svg>
-    <span>Sobressalentes</span>
+    <span class="card-title">Sobressalentes</span>
   </a>
 
-  <!-- 10. Produção FAT-B (Exclusivo para Coordenadores, Gerentes e Administradores) -->
-  <a id="card-producao-fatb" href="https://spi-tel.github.io/Producao-FAT-B/" class="card" target="_blank">
+  <!-- 10. Produção FAT-B (Em Construção) -->
+  <a id="card-producao-fatb" class="card" onclick="moduloEmConstrucao('Produção FAT-B')">
+    <div class="badge-construcao">Em Breve</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="18" y1="20" x2="18" y2="10"></line>
       <line x1="12" y1="20" x2="12" y2="4"></line>
       <line x1="6" y1="20" x2="6" y2="14"></line>
     </svg>
-    <span>Produção FAT-B</span>
+    <span class="card-title">Produção FAT-B</span>
   </a>
 
+  <!-- 11. Bairros Críticos (Visível para todos - Em Construção) -->
+  <a id="card-bairros-criticos" class="card" onclick="moduloEmConstrucao('Bairros Críticos')">
+    <div class="badge-construcao">Em Breve</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    <span class="card-title">Bairros Críticos</span>
+  </a>
+
+</div>
+
+<!-- Notificação Toast futurista -->
+<div id="toast-construcao">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <span id="toast-mensagem">Módulo em fase de construção!</span>
 </div>
 
 <script>
@@ -399,6 +456,7 @@
   const cardHorasExtras = document.getElementById("card-horas-extras");
   const cardSobressalentes = document.getElementById("card-sobressalentes");
   const cardProducaoFatb = document.getElementById("card-producao-fatb");
+  // cardBairrosCriticos permanece visível para todos os perfis
 
   if (perfilNormalizado.includes("coordenador")) {
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
@@ -411,7 +469,22 @@
     if (cardSobressalentes) cardSobressalentes.remove();
   }
 
-  // 4. Logout seguro
+  // 4. Feedback visual para cards em construção
+  let toastTimer;
+  function moduloEmConstrucao(nomeModulo) {
+    const toast = document.getElementById("toast-construcao");
+    const msg = document.getElementById("toast-mensagem");
+    
+    msg.innerText = `Módulo "${nomeModulo}" em fase de implantação. Disponível em breve!`;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+
+  // 5. Logout seguro
   function logout() {
     localStorage.removeItem("usuario_logado");
     localStorage.removeItem("perfil_usuario");
