@@ -257,7 +257,9 @@
   function logout() {
     localStorage.removeItem("usuario_logado");
     localStorage.removeItem("perfil_usuario");
-    window.location.href = "https://spi-tel.github.io/Login/";
+    localStorage.removeItem("ultimo_acesso");
+    // Redireciona para o login
+    window.location.replace("https://spi-tel.github.io/Login/");
   }
 </script>
 
