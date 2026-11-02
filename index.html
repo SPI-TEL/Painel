@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PAINEL DE CONTROLE - SPI</title>
   <style>
     body {
@@ -13,16 +14,36 @@
       background: linear-gradient(135deg, #0b4f9c 0%, #083366 100%);
       color: white;
       text-align: center;
-      padding: 18px 0;
+      padding: 18px 20px;
       font-size: 22px;
       font-weight: bold;
       position: relative;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .user-info {
+      position: absolute;
+      left: 20px;
+      font-size: 14px;
+      font-weight: normal;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .user-info span.role-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .btn-logout {
       position: absolute;
       right: 20px;
-      top: 15px;
       background: #d9534f;
       color: white;
       border: none;
@@ -44,8 +65,8 @@
       max-width: 1100px;
       margin: 0 auto;
     }
-    
-    /* EFEITOS MODERNOS NOS CARDS */
+
+    /* CARDS */
     .card {
       position: relative;
       background: linear-gradient(145deg, #12417d 0%, #081d38 100%);
@@ -65,7 +86,6 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Brilho / Reflexo dinâmico no card */
     .card::before {
       content: '';
       position: absolute;
@@ -82,7 +102,6 @@
       transition: all 0.6s ease;
     }
 
-    /* Animação do Card no Hover */
     .card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 30px rgba(11, 79, 156, 0.4);
@@ -93,7 +112,6 @@
       left: 100%;
     }
 
-    /* Animação e estilo dos ícones */
     .card img, .card svg {
       width: 52px;
       height: 52px;
@@ -124,51 +142,55 @@
 <body>
 
 <div class="header">
-  PAINEL DE CONTROLE - SPI
+  <div class="user-info">
+    <span id="nome-usuario">Olá, Usuário</span>
+    <span id="perfil-usuario" class="role-badge">Perfil</span>
+  </div>
+
+  <span>PAINEL DE CONTROLE - SPI</span>
+
   <button class="btn-logout" onclick="logout()">Sair</button>
 </div>
 
 <div class="grid-container">
 
   <!-- Link 1: Furto e Vandalismo -->
-  <a href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
+  <a id="card-furto-vandalismo" href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="Furto e Vandalismo">
     <span>FURTO E VANDALISMO</span>
   </a>
 
   <!-- Link 2: Controle de GMGM -->
-  <a href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
+  <a id="card-controle-gmgm" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/3103/3103318.png" alt="Controle GMGM">
     <span>CONTROLE GMGM</span>
   </a>
 
-  <!-- Link 3: Desempenho Regionais -->
-  <a href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
+  <!-- Link 3: Desempenho Regionais (Oculto para Coordenador e Supervisor) -->
+  <a id="card-desempenho-regionais" href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2920/2920329.png" alt="Desempenho Regionais">
     <span>DESEMPENHO REGIONAIS</span>
   </a>
 
   <!-- Link 4: Analise TAs -->
-  <a href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
+  <a id="card-causas-perda-tas" href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="TA - Causa Perda">
     <span>TA - CAUSA PERDA</span>
   </a>
 
-  <!-- Link 5: Horas Extras -->
-  <a href="https://spi-tel.github.io/Fechamento-Horas-Extras/" class="card" target="_blank">
+  <!-- Link 5: Horas Extras (Oculto para Supervisor) -->
+  <a id="card-horas-extras" href="https://spi-tel.github.io/Fechamento-Horas-Extras/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt="Horas Extras">
     <span>HORAS EXTRAS</span>
   </a>
 
-  <!-- Link 6: HL5 (Com ícone SVG de Torre de Telecomunicação) -->
-  <a href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
+  <!-- Link 6: HL5 -->
+  <a id="card-hl5" href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Torre -->
       <path d="M12 2L5 22h14L12 2z"></path>
       <path d="M7 17h10"></path>
       <path d="M8.5 12h7"></path>
       <path d="M10 7h4"></path>
-      <!-- Ondas de Sinal -->
       <path d="M17 4a4 4 0 0 1 0 5"></path>
       <path d="M7 4a4 4 0 0 0 0 5"></path>
       <path d="M19 2a8 8 0 0 1 0 9"></path>
@@ -178,13 +200,13 @@
   </a>
 
   <!-- Link 7: USCA - Modernização -->
-  <a href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
+  <a id="card-usca" href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2092/2092063.png" alt="USCA - Modernização">
     <span>USCA - MODERNIZAÇÃO</span>
   </a>
 
-  <!-- Link 8: NC/COR (Não Conformidade / Correção) -->
-  <a href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
+  <!-- Link 8: NC/COR -->
+  <a id="card-nc-cor" href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
       <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
@@ -196,14 +218,46 @@
 </div>
 
 <script>
-  if (!localStorage.getItem("usuario_logado")) {
+  // 1. Verificação de sessão
+  const usuarioLogado = localStorage.getItem("usuario_logado");
+  const perfilUsuario = (localStorage.getItem("perfil_usuario") || "").trim();
+
+  if (!usuarioLogado) {
     alert("Acesso restrito. Por favor, faça login.");
-    window.location.href = "login.html";
+    window.location.href = "https://spi-tel.github.io/Login/";
   }
 
+  // 2. Atualização dos dados do cabeçalho
+  document.getElementById("nome-usuario").innerText = `Olá, ${usuarioLogado}`;
+  document.getElementById("perfil-usuario").innerText = perfilUsuario || "Colaborador";
+
+  // 3. Regras de permissão por Perfil
+  const perfilNormalizado = perfilUsuario.toLowerCase();
+
+  const cardDesempenhoRegionais = document.getElementById("card-desempenho-regionais");
+  const cardHorasExtras = document.getElementById("card-horas-extras");
+
+  if (perfilNormalizado.includes("coordenador")) {
+    // Coordenador vê todos menos Desempenho Regionais
+    if (cardDesempenhoRegionais) {
+      cardDesempenhoRegionais.remove();
+    }
+  } else if (perfilNormalizado.includes("supervisor")) {
+    // Supervisor vê todos menos Desempenho Regionais e Horas Extras
+    if (cardDesempenhoRegionais) {
+      cardDesempenhoRegionais.remove();
+    }
+    if (cardHorasExtras) {
+      cardHorasExtras.remove();
+    }
+  }
+  // Admin e Gerente mantêm acesso a todos os cards por padrão
+
+  // 4. Logout seguro
   function logout() {
     localStorage.removeItem("usuario_logado");
-    window.location.href = "spi-tel.github.io/Login/";
+    localStorage.removeItem("perfil_usuario");
+    window.location.href = "https://spi-tel.github.io/Login/";
   }
 </script>
 
