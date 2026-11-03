@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAINEL DE CONTROLE - SPI</title>
+  <title>PAINEL DE CONTROLE - PLIN-SPI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -21,6 +21,8 @@
       color: #0b1a2d;
       overflow-x: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     body::before {
@@ -90,9 +92,9 @@
 
     /* TÍTULO DO CABEÇALHO */
     .header-title {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: 600;
-      letter-spacing: 2.5px;
+      letter-spacing: 2.2px;
       color: #e2f1ff;
       text-transform: uppercase;
       text-align: center;
@@ -126,11 +128,13 @@
 
     /* GRID DO PAINEL */
     .grid-container {
+      flex: 1;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 30px;
       padding: 45px 40px;
       max-width: 1240px;
+      width: 100%;
       margin: 0 auto;
     }
 
@@ -303,6 +307,35 @@
       font-size: 16px;
     }
 
+    /* RODAPÉ CORPORATIVO FUTURISTA */
+    .footer {
+      background: linear-gradient(135deg, rgba(7, 19, 36, 0.96) 0%, rgba(12, 35, 64, 0.94) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(0, 212, 255, 0.25);
+      padding: 16px 20px;
+      text-align: center;
+      color: #8da6c3;
+      font-size: 11.5px;
+      letter-spacing: 0.6px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer strong {
+      color: #d8eaff;
+      font-weight: 600;
+    }
+
+    .footer-divider {
+      color: rgba(0, 212, 255, 0.4);
+      margin: 0 6px;
+    }
+
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
@@ -314,11 +347,15 @@
         align-items: center;
       }
       .header-title {
-        font-size: 20px;
+        font-size: 19px;
       }
       .btn-logout {
         position: static;
         margin-top: 5px;
+      }
+      .footer {
+        font-size: 10.5px;
+        padding: 14px 15px;
       }
     }
   </style>
@@ -332,7 +369,7 @@
     <span id="info-ultimo-acesso" class="last-access">Último acesso: --</span>
   </div>
 
-  <div class="header-title">PAINEL DE CONTROLE - SPI</div>
+  <div class="header-title">PLIN-SPI - PAINEL DE CONTROLE</div>
 
   <button class="btn-logout" onclick="logout()">
     <i class="fa-solid fa-right-from-bracket"></i>
@@ -473,6 +510,18 @@
   </a>
 
 </div>
+
+<!-- RODAPÉ CORPORATIVO -->
+<footer class="footer">
+  <div>
+    <strong>O&M Planta Interna SPI</strong>
+    <span class="footer-divider">•</span>
+    <span>Acesso restrito a colaboradores da TEL Telecomunicações</span>
+  </div>
+  <div style="font-size: 10px; color: #5c7899; margin-top: 2px;">
+    Contrato Vivo SPI • Todos os direitos reservados
+  </div>
+</footer>
 
 <!-- Notificação Toast futurista -->
 <div id="toast-construcao">
