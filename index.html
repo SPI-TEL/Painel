@@ -88,32 +88,16 @@
       font-weight: 500;
     }
 
-    /* ÁREA DO TÍTULO COM O LOGO DA TEL */
-    .header-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      flex-grow: 1;
-    }
-
-    .logo-tel {
-      height: 34px;
-      width: auto;
-      object-fit: contain;
-      background: #ffffff;
-      padding: 3px 8px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-    }
-
+    /* TÍTULO DO CABEÇALHO */
     .header-title {
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
       color: #e2f1ff;
       text-transform: uppercase;
-      text-shadow: 0 0 16px rgba(0, 170, 255, 0.4);
+      text-align: center;
+      flex-grow: 1;
+      text-shadow: 0 0 16px rgba(0, 170, 255, 0.45);
     }
 
     .btn-logout {
@@ -235,7 +219,7 @@
       text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
     }
 
-    /* BADGE EM BREVE NO FORMATO CÁPSULA (IMAGEM 1) */
+    /* BADGE EM BREVE NO FORMATO CÁPSULA */
     .badge-capsula {
       position: absolute;
       top: 12px;
@@ -329,9 +313,8 @@
       .user-info {
         align-items: center;
       }
-      .header-center {
-        flex-direction: column;
-        gap: 8px;
+      .header-title {
+        font-size: 20px;
       }
       .btn-logout {
         position: static;
@@ -349,11 +332,7 @@
     <span id="info-ultimo-acesso" class="last-access">Último acesso: --</span>
   </div>
 
-  <div class="header-center">
-    <!-- Logotipo da TEL: pode substituir o caminho 'logo-tel.png' pelo caminho relativo ou URL hospedada no seu repositório -->
-    <img src="logo-tel.png" alt="Logo TEL" class="logo-tel" onerror="this.onerror=null; this.src='https://teltelecom.com.br/wp-content/themes/tel/assets/images/logo.png';">
-    <div class="header-title">PAINEL DE CONTROLE - SPI</div>
-  </div>
+  <div class="header-title">PAINEL DE CONTROLE - SPI</div>
 
   <button class="btn-logout" onclick="logout()">
     <i class="fa-solid fa-right-from-bracket"></i>
