@@ -88,14 +88,31 @@
       font-weight: 500;
     }
 
+    /* ÁREA DO TÍTULO COM O LOGO DA TEL */
+    .header-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .logo-tel {
+      height: 34px;
+      width: auto;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px 8px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    }
+
     .header-title {
       font-size: 19px;
       font-weight: 800;
       letter-spacing: 1.5px;
       color: #e2f1ff;
       text-transform: uppercase;
-      text-align: center;
-      flex-grow: 1;
       text-shadow: 0 0 16px rgba(0, 170, 255, 0.4);
     }
 
@@ -305,12 +322,16 @@
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
         padding: 16px;
         text-align: center;
       }
       .user-info {
         align-items: center;
+      }
+      .header-center {
+        flex-direction: column;
+        gap: 8px;
       }
       .btn-logout {
         position: static;
@@ -328,7 +349,11 @@
     <span id="info-ultimo-acesso" class="last-access">Último acesso: --</span>
   </div>
 
-  <div class="header-title">PAINEL DE CONTROLE - SPI</div>
+  <div class="header-center">
+    <!-- Logotipo da TEL: pode substituir o caminho 'logo-tel.png' pelo caminho relativo ou URL hospedada no seu repositório -->
+    <img src="logo-tel.png" alt="Logo TEL" class="logo-tel" onerror="this.onerror=null; this.src='https://teltelecom.com.br/wp-content/themes/tel/assets/images/logo.png';">
+    <div class="header-title">PAINEL DE CONTROLE - SPI</div>
+  </div>
 
   <button class="btn-logout" onclick="logout()">
     <i class="fa-solid fa-right-from-bracket"></i>
@@ -359,7 +384,7 @@
     <span class="card-title">HORAS EXTRAS</span>
   </a>
 
-  <!-- 3. Controle GMG (Ícone Motor com Raio Elétrico - Imagem 2) -->
+  <!-- 3. Controle GMG (Ícone Motor com Raio Elétrico) -->
   <a id="card-controle-gmg" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 10h1v4H4z"></path>
@@ -507,15 +532,12 @@
   const cardProducaoFatb = document.getElementById("card-producao-fatb");
 
   if (perfilNormalizado.includes("coordenador")) {
-    // Coordenador vê todos menos Desempenho Regionais
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
-    // Supervisor vê todos menos Desempenho Regionais, Horas Extras e Produção FAT-B
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHorasExtras) cardHorasExtras.remove();
     if (cardProducaoFatb) cardProducaoFatb.remove();
   }
-  // Admin e Gerente mantêm todos os cards visíveis
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
