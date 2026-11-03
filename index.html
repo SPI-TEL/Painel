@@ -386,7 +386,15 @@
     <span class="card-title">USCA - Modernização</span>
   </a>
 
-  <!-- 9. Sobressalentes (Em Construção) -->
+  <!-- 9. Preventivas (Visível para todos) -->
+  <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+    </svg>
+    <span class="card-title">Preventivas</span>
+  </a>
+
+  <!-- 10. Sobressalentes (Visível para todos - Em Construção) -->
   <a id="card-sobressalentes" class="card" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-construcao">Em Breve</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -397,7 +405,7 @@
     <span class="card-title">Sobressalentes</span>
   </a>
 
-  <!-- 10. Produção FAT-B (Em Construção) -->
+  <!-- 11. Produção FAT-B (Oculto para Supervisor - Em Construção) -->
   <a id="card-producao-fatb" class="card" onclick="moduloEmConstrucao('Produção FAT-B')">
     <div class="badge-construcao">Em Breve</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -408,7 +416,7 @@
     <span class="card-title">Produção FAT-B</span>
   </a>
 
-  <!-- 11. Bairros Críticos (Visível para todos - Em Construção) -->
+  <!-- 12. Bairros Críticos (Visível para todos - Em Construção) -->
   <a id="card-bairros-criticos" class="card" onclick="moduloEmConstrucao('Bairros Críticos')">
     <div class="badge-construcao">Em Breve</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -454,20 +462,19 @@
 
   const cardDesempenhoRegionais = document.getElementById("card-desempenho-regionais");
   const cardHorasExtras = document.getElementById("card-horas-extras");
-  const cardSobressalentes = document.getElementById("card-sobressalentes");
   const cardProducaoFatb = document.getElementById("card-producao-fatb");
-  // cardBairrosCriticos permanece visível para todos os perfis
+  // Sobressalentes, Preventivas e Bairros Críticos permanecem visíveis para todos os perfis
 
   if (perfilNormalizado.includes("coordenador")) {
+    // Coordenador vê todos menos Desempenho Regionais
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
-    if (cardSobressalentes) cardSobressalentes.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
+    // Supervisor vê todos menos Desempenho Regionais, Horas Extras e Produção FAT-B
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHorasExtras) cardHorasExtras.remove();
     if (cardProducaoFatb) cardProducaoFatb.remove();
-  } else if (perfilNormalizado.includes("gerente")) {
-    if (cardSobressalentes) cardSobressalentes.remove();
   }
+  // Admin e Gerente mantêm todos os cards visíveis
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
