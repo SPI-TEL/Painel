@@ -177,46 +177,55 @@
         inset 0 0 14px rgba(0, 225, 255, 0.2);
     }
 
-    /* ESTILO ESPECÍFICO DOS 3 CARDS EM CONSTRUÇÃO (IMAGEM 1) */
+    /* ESTILO DOS 3 CARDS EM CONSTRUÇÃO: NEON MAIS OPACO / SUTIL */
     .card-em-breve {
-      background: linear-gradient(155deg, rgba(18, 38, 66, 0.75) 0%, rgba(10, 24, 44, 0.85) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(155deg, rgba(13, 27, 47, 0.75) 0%, rgba(7, 17, 31, 0.82) 100%);
+      border: 1px solid rgba(0, 195, 255, 0.14);
+      box-shadow: 0 8px 20px rgba(11, 26, 45, 0.15);
+      opacity: 0.72;
+    }
+
+    .card-em-breve::before {
+      background: radial-gradient(circle at 50% 20%, rgba(0, 212, 255, 0.03), transparent 75%);
     }
 
     .card-em-breve svg {
-      stroke: #8fa3b8;
-      filter: none;
-      transition: all 0.3s ease;
+      stroke: #6688a8;
+      filter: drop-shadow(0 0 3px rgba(0, 180, 240, 0.18));
+      transition: all 0.35s ease;
     }
 
     .card-em-breve span.card-title {
-      color: #9ab0c5;
+      color: #8da4bc;
+      text-shadow: none;
     }
 
     .card-em-breve:hover {
-      border-color: rgba(0, 212, 255, 0.5);
-      box-shadow: 0 14px 30px rgba(0, 140, 255, 0.15), 0 0 15px rgba(0, 212, 255, 0.25);
+      opacity: 1;
+      border-color: rgba(0, 225, 255, 0.55);
+      box-shadow: 
+        0 14px 30px rgba(0, 140, 255, 0.18),
+        0 0 15px rgba(0, 225, 255, 0.25);
     }
 
     .card-em-breve:hover svg {
       stroke: #00d9ff;
-      filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.5));
+      filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));
     }
 
     .card-em-breve:hover span.card-title {
       color: #e5f3ff;
-      text-shadow: none;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
     }
 
-    /* BADGE EM BREVE NO FORMATO DA IMAGEM 1 */
+    /* BADGE EM BREVE NO FORMATO CÁPSULA (IMAGEM 1) */
     .badge-capsula {
       position: absolute;
       top: 12px;
       right: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      background: rgba(255, 255, 255, 0.05);
-      color: #8da4be;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.04);
+      color: #7b94ad;
       font-size: 8.5px;
       font-weight: 700;
       letter-spacing: 0.8px;
@@ -227,7 +236,7 @@
       backdrop-filter: blur(4px);
     }
 
-    /* ÍCONES */
+    /* ÍCONES PADRÃO */
     .card svg {
       width: 52px;
       height: 52px;
@@ -329,43 +338,9 @@
 
 <div class="grid-container">
 
-  <!-- ================= CARDS EM CONSTRUÇÃO NO TOPO (IMAGEM 1) ================= -->
-
-  <!-- Topo 1: Sobressalentes -->
-  <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
-    <div class="badge-capsula">EM BREVE</div>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-      <line x1="12" y1="22.08" x2="12" y2="12"></line>
-    </svg>
-    <span class="card-title">SOBRESSALENTES</span>
-  </a>
-
-  <!-- Topo 2: Produção FAT-B -->
-  <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
-    <div class="badge-capsula">EM BREVE</div>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10"></line>
-      <line x1="12" y1="20" x2="12" y2="4"></line>
-      <line x1="6" y1="20" x2="6" y2="14"></line>
-    </svg>
-    <span class="card-title">PRODUÇÃO FAT-B</span>
-  </a>
-
-  <!-- Topo 3: Bairros Críticos -->
-  <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
-    <div class="badge-capsula">EM BREVE</div>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-      <circle cx="12" cy="10" r="3"></circle>
-    </svg>
-    <span class="card-title">BAIRROS CRÍTICOS</span>
-  </a>
-
   <!-- ================= CARDS PRINCIPAIS EM OPERAÇÃO ================= -->
 
-  <!-- 4. Desempenho Regionais (Oculto para Coordenador e Supervisor) -->
+  <!-- 1. Desempenho Regionais (Oculto para Coordenador e Supervisor) -->
   <a id="card-desempenho-regionais" href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
@@ -375,7 +350,7 @@
     <span class="card-title">DESEMPENHO REGIONAIS</span>
   </a>
 
-  <!-- 5. Horas Extras (Oculto para Supervisor) -->
+  <!-- 2. Horas Extras (Oculto para Supervisor) -->
   <a id="card-horas-extras" href="https://spi-tel.github.io/Fechamento-Horas-Extras/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
@@ -384,20 +359,18 @@
     <span class="card-title">HORAS EXTRAS</span>
   </a>
 
-  <!-- 6. Controle GMG (Ícone de Motor com Raio - Imagem 2) -->
+  <!-- 3. Controle GMG (Ícone Motor com Raio Elétrico - Imagem 2) -->
   <a id="card-controle-gmg" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Bloco do Motor (Engine) -->
       <path d="M4 10h1v4H4z"></path>
       <path d="M20 11h1v2h-1z"></path>
       <path d="M5 8h3V6h3v2h4l2 3h2v6h-2l-2 3H8l-3-3V8z"></path>
-      <!-- Raio Elétrico Central -->
       <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
     </svg>
     <span class="card-title">CONTROLE GMG</span>
   </a>
 
-  <!-- 7. NC/COR -->
+  <!-- 4. NC/COR -->
   <a id="card-nc-cor" href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
@@ -407,7 +380,7 @@
     <span class="card-title">NC/COR</span>
   </a>
 
-  <!-- 8. Furto e Vandalismo -->
+  <!-- 5. Furto e Vandalismo -->
   <a id="card-furto-vandalismo" href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #ff9900; filter: drop-shadow(0 0 8px rgba(255, 153, 0, 0.6));">
       <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
@@ -417,7 +390,7 @@
     <span class="card-title">FURTO E VANDALISMO</span>
   </a>
 
-  <!-- 9. TA - Causa Perda -->
+  <!-- 6. TA - Causa Perda -->
   <a id="card-causas-perda-tas" href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
@@ -428,7 +401,7 @@
     <span class="card-title">TA - CAUSA PERDA</span>
   </a>
 
-  <!-- 10. HL5 -->
+  <!-- 7. HL5 -->
   <a id="card-hl5" href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2L5 22h14L12 2z"></path>
@@ -443,7 +416,7 @@
     <span class="card-title">HL5</span>
   </a>
 
-  <!-- 11. USCA - Modernização -->
+  <!-- 8. USCA - Modernização -->
   <a id="card-usca" href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -453,12 +426,46 @@
     <span class="card-title">USCA - MODERNIZAÇÃO</span>
   </a>
 
-  <!-- 12. Preventivas -->
+  <!-- 9. Preventivas -->
   <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
     </svg>
     <span class="card-title">PREVENTIVAS</span>
+  </a>
+
+  <!-- ================= CARDS EM CONSTRUÇÃO NO FINAL (NEON MAIS OPACO) ================= -->
+
+  <!-- 10. Sobressalentes -->
+  <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
+    <div class="badge-capsula">EM BREVE</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+    <span class="card-title">SOBRESSALENTES</span>
+  </a>
+
+  <!-- 11. Produção FAT-B -->
+  <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
+    <div class="badge-capsula">EM BREVE</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"></line>
+      <line x1="12" y1="20" x2="12" y2="4"></line>
+      <line x1="6" y1="20" x2="6" y2="14"></line>
+    </svg>
+    <span class="card-title">PRODUÇÃO FAT-B</span>
+  </a>
+
+  <!-- 12. Bairros Críticos -->
+  <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
+    <div class="badge-capsula">EM BREVE</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    <span class="card-title">BAIRROS CRÍTICOS</span>
   </a>
 
 </div>
