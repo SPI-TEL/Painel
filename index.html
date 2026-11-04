@@ -522,7 +522,7 @@
     <span class="card-title">TA - CAUSA PERDA</span>
   </a>
 
-  <!-- 7. TAs Online (Ícone Verde Estilo Imagem) -->
+  <!-- 7. TAs Online (Ícone Verde) -->
   <a id="card-tas-online" href="https://spi-tel.github.io/Portal-TAs-Online/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="2" width="20" height="20" rx="6" ry="6" stroke="#00e676" stroke-opacity="0.35" stroke-width="1.2"></rect>
@@ -568,7 +568,7 @@
     <span class="card-title">PREVENTIVAS</span>
   </a>
 
-  <!-- 11. Histórico Volumetria (Exclusivo para Coordenadores, Gerentes e Administradores) -->
+  <!-- 11. Histórico Volumetria (Exclusivo para Gerente e Administrador) -->
   <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 3v18h18"></path>
@@ -665,13 +665,17 @@
   const cardHistoricoVolumetria = document.getElementById("card-historico-volumetria");
 
   if (perfilNormalizado.includes("coordenador")) {
+    // Coordenador: não vê Desempenho Regionais nem Histórico Volumetria
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
+    if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
+    // Supervisor: não vê Desempenho Regionais, Horas Extras, Produção FAT-B nem Histórico Volumetria
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHorasExtras) cardHorasExtras.remove();
     if (cardProducaoFatb) cardProducaoFatb.remove();
     if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
   }
+  // Perfis Gerente e Admin mantêm acesso total ao Histórico Volumetria e demais cards liberados
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
