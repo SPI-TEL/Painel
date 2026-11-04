@@ -134,10 +134,10 @@
     .grid-container {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px 22px;
-      padding: 20px 36px;
-      max-width: 1360px;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 16px 20px;
+      padding: 16px 32px;
+      max-width: 1400px;
       width: 100%;
       margin: 0 auto;
       align-content: center;
@@ -148,7 +148,7 @@
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
       border-radius: 18px;
-      padding: 20px 14px;
+      padding: 18px 12px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
@@ -161,7 +161,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 135px;
+      min-height: 130px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -185,6 +185,41 @@
         0 16px 36px rgba(0, 140, 255, 0.25),
         0 0 20px rgba(0, 225, 255, 0.4),
         inset 0 0 12px rgba(0, 225, 255, 0.2);
+    }
+
+    /* CARD TAS ONLINE COM IDENTIDADE VERDE NEON */
+    #card-tas-online {
+      border-color: rgba(0, 230, 118, 0.4);
+      box-shadow: 
+        0 10px 25px rgba(11, 26, 45, 0.25),
+        inset 0 0 0 1px rgba(0, 230, 118, 0.2);
+    }
+
+    #card-tas-online::before {
+      background: radial-gradient(circle at 50% 20%, rgba(0, 230, 118, 0.1), transparent 75%);
+    }
+
+    #card-tas-online:hover {
+      border-color: #00ff88;
+      box-shadow: 
+        0 16px 36px rgba(0, 230, 118, 0.25),
+        0 0 20px rgba(0, 255, 136, 0.4),
+        inset 0 0 12px rgba(0, 230, 118, 0.25);
+    }
+
+    #card-tas-online svg {
+      stroke: #00e676;
+      filter: drop-shadow(0 0 8px rgba(0, 230, 118, 0.6));
+    }
+
+    #card-tas-online:hover svg {
+      stroke: #ffffff;
+      filter: drop-shadow(0 0 14px #00ff88);
+    }
+
+    #card-tas-online:hover span.card-title {
+      color: #00ff88;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
     }
 
     /* CARDS EM CONSTRUÇÃO: NEON OPACO */
@@ -365,16 +400,16 @@
     /* RESPONSIVIDADE PARA MONITORES COM MENOS ALTURA */
     @media (max-height: 800px) {
       .grid-container {
-        gap: 14px 18px;
-        padding: 14px 28px;
+        gap: 12px 16px;
+        padding: 12px 24px;
       }
       .card {
-        min-height: 118px;
-        padding: 14px 8px;
+        min-height: 115px;
+        padding: 12px 8px;
       }
       .card svg {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
         margin-bottom: 6px;
       }
     }
@@ -451,7 +486,7 @@
       <path d="M4 10h1v4H4z"></path>
       <path d="M20 11h1v2h-1z"></path>
       <path d="M5 8h3V6h3v2h4l2 3h2v6h-2l-2 3H8l-3-3V8z"></path>
-      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
+      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
     </svg>
     <span class="card-title">CONTROLE GMG</span>
   </a>
@@ -487,7 +522,23 @@
     <span class="card-title">TA - CAUSA PERDA</span>
   </a>
 
-  <!-- 7. HL5 -->
+  <!-- 7. TAs Online (Ícone Verde Estilo Imagem) -->
+  <a id="card-tas-online" href="https://spi-tel.github.io/Portal-TAs-Online/" class="card" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Moldura arredondada externa sutil -->
+      <rect x="2" y="2" width="20" height="20" rx="6" ry="6" stroke="#00e676" stroke-opacity="0.35" stroke-width="1.2"></rect>
+      <!-- Ponto Central Ativo -->
+      <circle cx="12" cy="12" r="1.6" fill="#00e676" stroke="#00e676"></circle>
+      <!-- Ondas de Sinal Concéntricas -->
+      <path d="M8.5 9.2a4 4 0 0 0 0 5.6"></path>
+      <path d="M15.5 9.2a4 4 0 0 1 0 5.6"></path>
+      <path d="M5.8 6.5a8 8 0 0 0 0 11"></path>
+      <path d="M18.2 6.5a8 8 0 0 1 0 11"></path>
+    </svg>
+    <span class="card-title" style="color: #c9fddb;">TAS ONLINE</span>
+  </a>
+
+  <!-- 8. HL5 -->
   <a id="card-hl5" href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2L5 22h14L12 2z"></path>
@@ -502,7 +553,7 @@
     <span class="card-title">HL5</span>
   </a>
 
-  <!-- 8. USCA - Modernização -->
+  <!-- 9. USCA - Modernização -->
   <a id="card-usca" href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -512,7 +563,7 @@
     <span class="card-title">USCA - MODERNIZAÇÃO</span>
   </a>
 
-  <!-- 9. Preventivas -->
+  <!-- 10. Preventivas -->
   <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
@@ -520,7 +571,7 @@
     <span class="card-title">PREVENTIVAS</span>
   </a>
 
-  <!-- 10. Histórico Volumetria (Exclusivo para Coordenadores, Gerentes e Administradores) -->
+  <!-- 11. Histórico Volumetria (Exclusivo para Coordenadores, Gerentes e Administradores) -->
   <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 3v18h18"></path>
@@ -532,7 +583,7 @@
 
   <!-- ================= CARDS EM CONSTRUÇÃO NO FINAL (NEON MAIS OPACO) ================= -->
 
-  <!-- 11. Sobressalentes -->
+  <!-- 12. Sobressalentes -->
   <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -543,7 +594,7 @@
     <span class="card-title">SOBRESSALENTES</span>
   </a>
 
-  <!-- 12. Produção FAT-B -->
+  <!-- 13. Produção FAT-B -->
   <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -554,7 +605,7 @@
     <span class="card-title">PRODUÇÃO FAT-B</span>
   </a>
 
-  <!-- 13. Bairros Críticos -->
+  <!-- 14. Bairros Críticos -->
   <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -617,7 +668,7 @@
   const cardHistoricoVolumetria = document.getElementById("card-historico-volumetria");
 
   if (perfilNormalizado.includes("coordenador")) {
-    // Coordenador vê todos menos Desempenho Regionais (Vê Histórico Volumetria normalmente)
+    // Coordenador vê todos menos Desempenho Regionais (Vê TAs Online e Histórico Volumetria normalmente)
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
     // Supervisor não vê Desempenho Regionais, Horas Extras, Produção FAT-B nem Histórico Volumetria
