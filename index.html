@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAINEL DE CONTROLE - PLIN-SPI</title>
+  <title>PLIN-SPI - PAINEL DE CONTROLE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -130,25 +130,25 @@
       box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
     }
 
-    /* GRID DO PAINEL COM ESPAÇAMENTO EQUILIBRADO */
+    /* GRID DO PAINEL */
     .grid-container {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px 24px;
-      padding: 24px 36px;
-      max-width: 1320px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px 22px;
+      padding: 20px 36px;
+      max-width: 1360px;
       width: 100%;
       margin: 0 auto;
       align-content: center;
     }
 
-    /* CARDS MAIS ALTOS, IMPONENTES E MENOS ESTICADOS */
+    /* CARDS ESCUROS FUTURISTAS COM NEON */
     .card {
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
       border-radius: 18px;
-      padding: 24px 14px;
+      padding: 20px 14px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
@@ -161,7 +161,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 145px;
+      min-height: 135px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -179,7 +179,7 @@
     }
 
     .card:hover {
-      transform: translateY(-6px) scale(1.02);
+      transform: translateY(-5px) scale(1.02);
       border-color: #00e1ff;
       box-shadow: 
         0 16px 36px rgba(0, 140, 255, 0.25),
@@ -246,11 +246,11 @@
       backdrop-filter: blur(4px);
     }
 
-    /* ÍCONES PROPORCIONAIS */
+    /* ÍCONES PADRÃO */
     .card svg {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 12px;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 10px;
       z-index: 1;
       stroke: #00d9ff;
       transition: transform 0.35s ease, filter 0.35s ease, stroke 0.35s ease;
@@ -265,9 +265,9 @@
 
     /* TÍTULO DO CARD */
     .card span.card-title {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.9px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
       z-index: 1;
       color: #e5f3ff;
@@ -312,7 +312,7 @@
       font-size: 15px;
     }
 
-    /* RODAPÉ CORPORATIVO */
+    /* RODAPÉ CORPORATIVO COMPACTO */
     .footer {
       background: linear-gradient(135deg, rgba(7, 19, 36, 0.96) 0%, rgba(12, 35, 64, 0.94) 100%);
       backdrop-filter: blur(14px);
@@ -365,17 +365,17 @@
     /* RESPONSIVIDADE PARA MONITORES COM MENOS ALTURA */
     @media (max-height: 800px) {
       .grid-container {
-        gap: 16px 20px;
-        padding: 16px 30px;
+        gap: 14px 18px;
+        padding: 14px 28px;
       }
       .card {
-        min-height: 125px;
-        padding: 18px 10px;
+        min-height: 118px;
+        padding: 14px 8px;
       }
       .card svg {
-        width: 42px;
-        height: 42px;
-        margin-bottom: 8px;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 6px;
       }
     }
 
@@ -414,7 +414,7 @@
     <span id="info-ultimo-acesso" class="last-access">Último acesso: --</span>
   </div>
 
-  <div class="header-title">PAINEL DE CONTROLE - PLIN-SPI</div>
+  <div class="header-title">PLIN-SPI - PAINEL DE CONTROLE</div>
 
   <button class="btn-logout" onclick="logout()">
     <i class="fa-solid fa-right-from-bracket"></i>
@@ -451,7 +451,7 @@
       <path d="M4 10h1v4H4z"></path>
       <path d="M20 11h1v2h-1z"></path>
       <path d="M5 8h3V6h3v2h4l2 3h2v6h-2l-2 3H8l-3-3V8z"></path>
-      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
+      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
     </svg>
     <span class="card-title">CONTROLE GMG</span>
   </a>
@@ -520,9 +520,19 @@
     <span class="card-title">PREVENTIVAS</span>
   </a>
 
+  <!-- 10. Histórico Volumetria (Exclusivo para Coordenadores, Gerentes e Administradores) -->
+  <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 3v18h18"></path>
+      <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+      <circle cx="18.7" cy="8" r="1.5" fill="#00d9ff"></circle>
+    </svg>
+    <span class="card-title">HISTÓRICO VOLUMETRIA</span>
+  </a>
+
   <!-- ================= CARDS EM CONSTRUÇÃO NO FINAL (NEON MAIS OPACO) ================= -->
 
-  <!-- 10. Sobressalentes -->
+  <!-- 11. Sobressalentes -->
   <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -533,7 +543,7 @@
     <span class="card-title">SOBRESSALENTES</span>
   </a>
 
-  <!-- 11. Produção FAT-B -->
+  <!-- 12. Produção FAT-B -->
   <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -544,7 +554,7 @@
     <span class="card-title">PRODUÇÃO FAT-B</span>
   </a>
 
-  <!-- 12. Bairros Críticos -->
+  <!-- 13. Bairros Críticos -->
   <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -604,14 +614,19 @@
   const cardDesempenhoRegionais = document.getElementById("card-desempenho-regionais");
   const cardHorasExtras = document.getElementById("card-horas-extras");
   const cardProducaoFatb = document.getElementById("card-producao-fatb");
+  const cardHistoricoVolumetria = document.getElementById("card-historico-volumetria");
 
   if (perfilNormalizado.includes("coordenador")) {
+    // Coordenador vê todos menos Desempenho Regionais (Vê Histórico Volumetria normalmente)
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
+    // Supervisor não vê Desempenho Regionais, Horas Extras, Produção FAT-B nem Histórico Volumetria
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHorasExtras) cardHorasExtras.remove();
     if (cardProducaoFatb) cardProducaoFatb.remove();
+    if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
   }
+  // Perfis Gerente e Admin mantêm acesso total ao Histórico Volumetria e demais cards liberados
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
