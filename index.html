@@ -130,14 +130,14 @@
       box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
     }
 
-    /* GRID DO PAINEL */
+    /* GRID CONFIGURADA EM 5 COLUNAS (3 LINHAS X 5 COLUNAS = 15 CARDS) */
     .grid-container {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 14px 18px;
-      padding: 14px 28px;
-      max-width: 1440px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px 18px;
+      padding: 16px 32px;
+      max-width: 1520px;
       width: 100%;
       margin: 0 auto;
       align-content: center;
@@ -148,7 +148,7 @@
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
       border-radius: 16px;
-      padding: 16px 10px;
+      padding: 18px 10px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
@@ -161,7 +161,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 122px;
+      min-height: 126px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -400,17 +400,24 @@
     /* RESPONSIVIDADE PARA MONITORES COM MENOS ALTURA */
     @media (max-height: 800px) {
       .grid-container {
-        gap: 10px 14px;
-        padding: 10px 20px;
+        gap: 12px 14px;
+        padding: 10px 24px;
       }
       .card {
-        min-height: 110px;
+        min-height: 112px;
         padding: 12px 6px;
       }
       .card svg {
-        width: 34px;
-        height: 34px;
+        width: 36px;
+        height: 36px;
         margin-bottom: 5px;
+      }
+    }
+
+    /* ADAPTAÇÃO PARA TABLETS E TELAS MENORES */
+    @media (max-width: 1200px) {
+      .grid-container {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
 
@@ -459,7 +466,7 @@
 
 <div class="grid-container">
 
-  <!-- ================= CARDS PRINCIPAIS EM OPERAÇÃO ================= -->
+  <!-- ================= LINHA 1 (5 CARDS) ================= -->
 
   <!-- 1. Desempenho Regionais (Oculto para Coordenador e Supervisor) -->
   <a id="card-desempenho-regionais" href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
@@ -510,6 +517,8 @@
     </svg>
     <span class="card-title">FURTO E VANDALISMO</span>
   </a>
+
+  <!-- ================= LINHA 2 (5 CARDS) ================= -->
 
   <!-- 6. TA - Causa Perda -->
   <a id="card-causas-perda-tas" href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
@@ -568,6 +577,8 @@
     <span class="card-title">PREVENTIVAS</span>
   </a>
 
+  <!-- ================= LINHA 3 (5 CARDS) ================= -->
+
   <!-- 11. Histórico Volumetria (Exclusivo para Gerente e Administrador) -->
   <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -588,9 +599,7 @@
     <span class="card-title">COMPRAS (SC)</span>
   </a>
 
-  <!-- ================= CARDS EM CONSTRUÇÃO NO FINAL (NEON MAIS OPACO) ================= -->
-
-  <!-- 13. Sobressalentes -->
+  <!-- 13. Sobressalentes (Em Construção) -->
   <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -601,7 +610,7 @@
     <span class="card-title">SOBRESSALENTES</span>
   </a>
 
-  <!-- 14. Produção FAT-B -->
+  <!-- 14. Produção FAT-B (Em Construção) -->
   <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -612,7 +621,7 @@
     <span class="card-title">PRODUÇÃO FAT-B</span>
   </a>
 
-  <!-- 15. Bairros Críticos -->
+  <!-- 15. Bairros Críticos (Em Construção) -->
   <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -688,7 +697,7 @@
     if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
     if (cardComprasSc) cardComprasSc.remove();
   }
-  // Perfis Gerente e Admin mantêm acesso total ao Compras (SC), Histórico Volumetria e demais cards liberados
+  // Perfis Gerente e Admin mantêm acesso total a todos os cards liberados
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
