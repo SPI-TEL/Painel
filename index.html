@@ -134,10 +134,10 @@
     .grid-container {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-      gap: 16px 20px;
-      padding: 16px 32px;
-      max-width: 1400px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px 18px;
+      padding: 14px 28px;
+      max-width: 1440px;
       width: 100%;
       margin: 0 auto;
       align-content: center;
@@ -147,8 +147,8 @@
     .card {
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
-      border-radius: 18px;
-      padding: 18px 12px;
+      border-radius: 16px;
+      padding: 16px 10px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
@@ -161,7 +161,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 130px;
+      min-height: 122px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -283,9 +283,9 @@
 
     /* ÍCONES PADRÃO */
     .card svg {
-      width: 44px;
-      height: 44px;
-      margin-bottom: 10px;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 8px;
       z-index: 1;
       stroke: #00d9ff;
       transition: transform 0.35s ease, filter 0.35s ease, stroke 0.35s ease;
@@ -400,17 +400,17 @@
     /* RESPONSIVIDADE PARA MONITORES COM MENOS ALTURA */
     @media (max-height: 800px) {
       .grid-container {
-        gap: 12px 16px;
-        padding: 12px 24px;
+        gap: 10px 14px;
+        padding: 10px 20px;
       }
       .card {
-        min-height: 115px;
-        padding: 12px 8px;
+        min-height: 110px;
+        padding: 12px 6px;
       }
       .card svg {
-        width: 36px;
-        height: 36px;
-        margin-bottom: 6px;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 5px;
       }
     }
 
@@ -578,9 +578,19 @@
     <span class="card-title">HISTÓRICO VOLUMETRIA</span>
   </a>
 
+  <!-- 12. Compras (SC) (Exclusivo para Gerente e Administrador) -->
+  <a id="card-compras-sc" href="https://spi-tel.github.io/Compras/" class="card" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="card-title">COMPRAS (SC)</span>
+  </a>
+
   <!-- ================= CARDS EM CONSTRUÇÃO NO FINAL (NEON MAIS OPACO) ================= -->
 
-  <!-- 12. Sobressalentes -->
+  <!-- 13. Sobressalentes -->
   <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -591,7 +601,7 @@
     <span class="card-title">SOBRESSALENTES</span>
   </a>
 
-  <!-- 13. Produção FAT-B -->
+  <!-- 14. Produção FAT-B -->
   <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -602,7 +612,7 @@
     <span class="card-title">PRODUÇÃO FAT-B</span>
   </a>
 
-  <!-- 14. Bairros Críticos -->
+  <!-- 15. Bairros Críticos -->
   <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -663,19 +673,22 @@
   const cardHorasExtras = document.getElementById("card-horas-extras");
   const cardProducaoFatb = document.getElementById("card-producao-fatb");
   const cardHistoricoVolumetria = document.getElementById("card-historico-volumetria");
+  const cardComprasSc = document.getElementById("card-compras-sc");
 
   if (perfilNormalizado.includes("coordenador")) {
-    // Coordenador: não vê Desempenho Regionais nem Histórico Volumetria
+    // Coordenador: não vê Desempenho Regionais, Histórico Volumetria nem Compras (SC)
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
+    if (cardComprasSc) cardComprasSc.remove();
   } else if (perfilNormalizado.includes("supervisor")) {
-    // Supervisor: não vê Desempenho Regionais, Horas Extras, Produção FAT-B nem Histórico Volumetria
+    // Supervisor: não vê Desempenho Regionais, Horas Extras, Produção FAT-B, Histórico Volumetria nem Compras (SC)
     if (cardDesempenhoRegionais) cardDesempenhoRegionais.remove();
     if (cardHorasExtras) cardHorasExtras.remove();
     if (cardProducaoFatb) cardProducaoFatb.remove();
     if (cardHistoricoVolumetria) cardHistoricoVolumetria.remove();
+    if (cardComprasSc) cardComprasSc.remove();
   }
-  // Perfis Gerente e Admin mantêm acesso total ao Histórico Volumetria e demais cards liberados
+  // Perfis Gerente e Admin mantêm acesso total ao Compras (SC), Histórico Volumetria e demais cards liberados
 
   // 4. Feedback visual para cards em construção
   let toastTimer;
