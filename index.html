@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLIN-SPI - PAINEL DE CONTROLE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- PapaParse para leitura automática das planilhas Google -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     * {
@@ -14,7 +13,6 @@
       padding: 0;
     }
 
-    /* TELA CHEIA INTEGRADA SEM ROLAGEM */
     html, body {
       height: 100vh;
       overflow: hidden;
@@ -132,7 +130,7 @@
       box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
     }
 
-    /* GRID CONFIGURADA EM 5 COLUNAS AJUSTADA PARA 4 LINHAS */
+    /* GRID CONFIGURADA EM 5 COLUNAS */
     .grid-container {
       flex: 1;
       display: grid;
@@ -431,7 +429,6 @@
       margin: 0 2px;
     }
 
-    /* ADAPTAÇÃO PARA TELAS MENORES */
     @media (max-width: 1200px) {
       .grid-container {
         grid-template-columns: repeat(4, 1fr);
@@ -735,23 +732,44 @@
     if (cardComprasSc) cardComprasSc.remove();
   }
 
-  // 4. Função para exibir o número na badge vermelha
-  function definirContadorCard(idBadge, quantidade) {
+  // 4. Função com persistência em cache para nunca deixar os números sumirem
+  function definirContadorCard(idBadge, quantidade, salvarCache = true) {
     const badge = document.getElementById(idBadge);
     if (!badge) return;
     const valorNum = parseInt(String(quantidade).replace(/\D/g, ""), 10) || 0;
+    
     badge.innerText = valorNum > 0 ? valorNum : "";
+    if (salvarCache) {
+      localStorage.setItem(`cache_${idBadge}`, valorNum);
+    }
+  }
+
+  // Restaura imediatamente os últimos valores salvos enquanto busca atualizações
+  function restaurarCacheContadores() {
+    const ids = [
+      "badge-preventivas",
+      "badge-nc-cor",
+      "badge-compras-sc",
+      "badge-projetos-especiais",
+      "badge-controle-gmg"
+    ];
+    ids.forEach(id => {
+      const salvo = localStorage.getItem(`cache_${id}`);
+      if (salvo !== null) {
+        definirContadorCard(id, salvo, false);
+      }
+    });
   }
 
   // =========================================================================
-  // 5. LEITURA DIRETA DAS 5 PLANILHAS ESPECÍFICAS DO GOOGLE SHEETS
+  // 5. LEITURA VIA ENDPOINT GVIZ DO GOOGLE SHEETS (ESTÁVEL E SEM BLOQUEIO CORS)
   // =========================================================================
   const PLANILHAS = {
-    preventivas: "https://docs.google.com/spreadsheets/d/1xVaLWWvjWFQBgMF6KMRa5E2q6d4CtwA5GD-JPrOg2Qo/export?format=csv",
-    nccor:       "https://docs.google.com/spreadsheets/d/1iMMpk4uiAjoWDw4-guwggjJ-PnrffHgIjqP02lzHBck/export?format=csv",
-    compras:     "https://docs.google.com/spreadsheets/d/1kXiUL_bMvlE_sKkB4jMbMbAMzk21ofnR8RWMs17owPs/export?format=csv",
-    projetos:    "https://docs.google.com/spreadsheets/d/1v5Z7GzLWtSyYWkJPeMgQl2S_Ccf8nwJGrp24yQsfyaw/export?format=csv",
-    gmg:         "https://docs.google.com/spreadsheets/d/1qIKdq-foHzZUd-pWBbUz201fdKLNKn3F3vrshOSlyq4/export?format=csv"
+    preventivas: "https://docs.google.com/spreadsheets/d/1xVaLWWvjWFQBgMF6KMRa5E2q6d4CtwA5GD-JPrOg2Qo/gviz/tq?tqx=out:csv",
+    nccor:       "https://docs.google.com/spreadsheets/d/1iMMpk4uiAjoWDw4-guwggjJ-PnrffHgIjqP02lzHBck/gviz/tq?tqx=out:csv",
+    compras:     "https://docs.google.com/spreadsheets/d/1kXiUL_bMvlE_sKkB4jMbMbAMzk21ofnR8RWMs17owPs/gviz/tq?tqx=out:csv",
+    projetos:    "https://docs.google.com/spreadsheets/d/1v5Z7GzLWtSyYWkJPeMgQl2S_Ccf8nwJGrp24yQsfyaw/gviz/tq?tqx=out:csv",
+    gmg:         "https://docs.google.com/spreadsheets/d/1qIKdq-foHzZUd-pWBbUz201fdKLNKn3F3vrshOSlyq4/gviz/tq?tqx=out:csv"
   };
 
   function normalizarTexto(str) {
@@ -763,13 +781,17 @@
   }
 
   function lerPlanilhaCSV(url, callback) {
-    const urlSemCache = `${url}&t=${new Date().getTime()}`;
-    Papa.parse(urlSemCache, {
+    const urlFinal = `${url}&t=${Date.now()}`;
+    Papa.parse(urlFinal, {
       download: true,
       header: false,
       skipEmptyLines: true,
-      complete: (results) => callback(results.data || []),
-      error: (err) => console.error("Erro ao carregar planilha:", url, err)
+      complete: (results) => {
+        if (results && results.data && results.data.length > 0) {
+          callback(results.data);
+        }
+      },
+      error: (err) => console.warn("Falha temporária na sincronização (mantendo cache):", url, err)
     });
   }
 
@@ -798,7 +820,6 @@
       linhas.slice(1).forEach(linha => {
         const textoLinha = normalizarTexto(linha.join(" "));
         const isForaPrazo = textoLinha.includes("fora do prazo") || textoLinha.includes("atrasad");
-        // Se houver coluna identificando TEL/VIVO, prioriza TEL; caso não mencione VIVO, conta também
         const isTel = textoLinha.includes("tel") || !textoLinha.includes("vivo");
         if (isForaPrazo && isTel) {
           foraPrazo++;
@@ -814,8 +835,8 @@
     lerPlanilhaCSV(PLANILHAS.compras, (linhas) => {
       if (linhas.length < 2) return;
       const header = linhas[0].map(h => normalizarTexto(h));
-      let idxCodSC = header.findIndex(h => h.includes("codigo sc") || h === "sc");
-      let idxNumPed = header.findIndex(h => h.includes("pedido") && (h.includes("n") || h.includes("num")));
+      let idxCodSC = header.findIndex(h => h.includes("codigo sc") || h === "sc" || h.includes("cod. sc"));
+      let idxNumPed = header.findIndex(h => (h.includes("pedido") && (h.includes("n") || h.includes("num"))) || h === "pedido");
 
       if (idxCodSC === -1) idxCodSC = 0;
       if (idxNumPed === -1) idxNumPed = 56;
@@ -838,17 +859,26 @@
     lerPlanilhaCSV(PLANILHAS.projetos, (linhas) => {
       if (linhas.length < 2) return;
       const hoje = new Date();
-      const dia = String(hoje.getDate()).padStart(2, "0");
-      const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+      const d = hoje.getDate();
+      const m = hoje.getMonth() + 1;
       const ano = hoje.getFullYear();
+      const anoCurto = String(ano).slice(-2);
 
-      const dataHojeBR = `${dia}/${mes}/${ano}`; // DD/MM/AAAA
-      const dataHojeISO = `${ano}-${mes}-${dia}`; // AAAA-MM-DD
+      const dia = String(d).padStart(2, "0");
+      const mes = String(m).padStart(2, "0");
+
+      // Formatos possíveis de data na planilha: 17/11/2026, 17/11/26, 2026-11-17
+      const formatosHoje = [
+        `${dia}/${mes}/${ano}`,
+        `${dia}/${mes}/${anoCurto}`,
+        `${d}/${m}/${ano}`,
+        `${ano}-${mes}-${dia}`
+      ];
 
       let programadosHoje = 0;
       linhas.slice(1).forEach(linha => {
         const textoLinha = linha.join(" ");
-        if (textoLinha.includes(dataHojeBR) || textoLinha.includes(dataHojeISO)) {
+        if (formatosHoje.some(fmt => textoLinha.includes(fmt))) {
           programadosHoje++;
         }
       });
@@ -880,9 +910,12 @@
     atualizarGmgInoperantes();
   }
 
-  // Executa imediatamente ao abrir e atualiza a cada 2 minutos
+  // 1º: Mostra instantaneamente os números salvos no cache
+  restaurarCacheContadores();
+  // 2º: Atualiza em segundo plano com os dados mais recentes das planilhas
   atualizarTodosContadores();
-  setInterval(atualizarTodosContadores, 120000);
+  // 3º: Sincroniza a cada 3 minutos
+  setInterval(atualizarTodosContadores, 180000);
 
   // 6. Feedback visual para cards em construção
   let toastTimer;
