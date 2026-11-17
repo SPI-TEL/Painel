@@ -744,63 +744,86 @@
     badge.innerText = valorNum > 0 ? valorNum : "";
   }
 
-  // 5. Leitura automática da Planilha de Resumo (CSV)
-  const CSV_RESUMO_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8h8eGf-6Ys6XuH14KEkFQkgyg92OsETxNqzxOHjoSyxEc49Nm3dYMnWsflOv__ZGjfP-KxqZsIV1i/pub?gid=0&single=true&output=csv";
+  // 5. Leitura automática da Planilha de Resumo (CSV) - Suporta formato Vertical e Horizontal
+  const CSV_RESUMO_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8h8eGf-6Ys6XuH14KEkFQkgyg92OsETxNqzxOHjoSyxEc49Nm3dYMnWsflOv__ZGjfP-KxqZsIV1i/pub?gid=0&single=true&output=csv";
+
+  function associarValorAoCard(textoIdentificador, valor) {
+    const txt = textoIdentificador.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const num = parseInt(String(valor).replace(/\D/g, ""), 10) || 0;
+    if (num <= 0) return;
+
+    if (txt.includes("regional") || txt.includes("regionais")) {
+      definirContadorCard("badge-desempenho-regionais", num);
+    } else if (txt.includes("hora") || txt.includes("extra")) {
+      definirContadorCard("badge-horas-extras", num);
+    } else if (txt.includes("gmg")) {
+      definirContadorCard("badge-controle-gmg", num);
+    } else if (txt.includes("nc") || txt.includes("cor")) {
+      definirContadorCard("badge-nc-cor", num);
+    } else if (txt.includes("furto") || txt.includes("vandalismo")) {
+      definirContadorCard("badge-furto-vandalismo", num);
+    } else if (txt.includes("perda") || txt.includes("perca") || txt.includes("causa")) {
+      definirContadorCard("badge-causas-perda-tas", num);
+    } else if (txt.includes("online") || txt.includes("ta ") || txt === "tas") {
+      definirContadorCard("badge-tas-online", num);
+    } else if (txt.includes("hl5")) {
+      definirContadorCard("badge-hl5", num);
+    } else if (txt.includes("usca") || txt.includes("modernizacao")) {
+      definirContadorCard("badge-usca", num);
+    } else if (txt.includes("preventiva")) {
+      definirContadorCard("badge-preventivas", num);
+    } else if (txt.includes("projeto")) {
+      definirContadorCard("badge-projetos-especiais", num);
+    } else if (txt.includes("volumetria") || txt.includes("historico") || txt.includes("sla")) {
+      definirContadorCard("badge-historico-volumetria", num);
+    } else if (txt.includes("compra") || txt.includes("sc")) {
+      definirContadorCard("badge-compras-sc", num);
+    }
+  }
 
   function carregarResumoPlanilha() {
-    Papa.parse(CSV_RESUMO_URL, {
+    const urlSemCache = `${CSV_RESUMO_BASE}&t=${new Date().getTime()}`;
+
+    Papa.parse(urlSemCache, {
       download: true,
       header: false,
       skipEmptyLines: true,
       complete: function(results) {
         const linhas = results.data;
+        console.log("Dados lidos da planilha de resumo:", linhas);
         if (!linhas || linhas.length === 0) return;
 
+        // MODO 1: Leitura Vertical (Nome do card e número na mesma linha)
         linhas.forEach(linha => {
-          // Procura em cada linha o nome do módulo e o valor numérico correspondente
-          const textoLinha = linha.join(" ").toLowerCase();
-          
-          // Extrai o primeiro número inteiro válido encontrado nas células da linha
-          let valorEncontrado = 0;
-          for (let i = 0; i < linha.length; i++) {
-            const celula = String(linha[i] || "").trim();
-            if (/^\d+$/.test(celula)) {
-              valorEncontrado = parseInt(celula, 10);
-              break;
+          let textoLinha = "";
+          let numeroLinha = null;
+
+          linha.forEach(celula => {
+            const val = String(celula || "").trim();
+            if (/^[\d.,]+$/.test(val) && /\d/.test(val)) {
+              numeroLinha = val;
+            } else if (val.length > 1) {
+              textoLinha += " " + val;
             }
-          }
+          });
 
-          if (valorEncontrado <= 0) return;
-
-          // Mapeamento inteligente por palavra-chave para cada card
-          if (textoLinha.includes("regional") || textoLinha.includes("regionais")) {
-            definirContadorCard("badge-desempenho-regionais", valorEncontrado);
-          } else if (textoLinha.includes("hora") || textoLinha.includes("extra")) {
-            definirContadorCard("badge-horas-extras", valorEncontrado);
-          } else if (textoLinha.includes("gmg")) {
-            definirContadorCard("badge-controle-gmg", valorEncontrado);
-          } else if (textoLinha.includes("nc") || textoLinha.includes("cor")) {
-            definirContadorCard("badge-nc-cor", valorEncontrado);
-          } else if (textoLinha.includes("furto") || textoLinha.includes("vandalismo")) {
-            definirContadorCard("badge-furto-vandalismo", valorEncontrado);
-          } else if (textoLinha.includes("perda") || textoLinha.includes("perca")) {
-            definirContadorCard("badge-causas-perda-tas", valorEncontrado);
-          } else if (textoLinha.includes("online") || textoLinha.includes("ta ")) {
-            definirContadorCard("badge-tas-online", valorEncontrado);
-          } else if (textoLinha.includes("hl5")) {
-            definirContadorCard("badge-hl5", valorEncontrado);
-          } else if (textoLinha.includes("usca")) {
-            definirContadorCard("badge-usca", valorEncontrado);
-          } else if (textoLinha.includes("preventiva")) {
-            definirContadorCard("badge-preventivas", valorEncontrado);
-          } else if (textoLinha.includes("projeto")) {
-            definirContadorCard("badge-projetos-especiais", valorEncontrado);
-          } else if (textoLinha.includes("volumetria") || textoLinha.includes("historico") || textoLinha.includes("histórico")) {
-            definirContadorCard("badge-historico-volumetria", valorEncontrado);
-          } else if (textoLinha.includes("compra") || textoLinha.includes("sc")) {
-            definirContadorCard("badge-compras-sc", valorEncontrado);
+          if (textoLinha && numeroLinha !== null) {
+            associarValorAoCard(textoLinha, numeroLinha);
           }
         });
+
+        // MODO 2: Leitura Horizontal (Linha 1 = Cabeçalhos dos cards, Linha 2 = Valores)
+        if (linhas.length >= 2) {
+          const cabecalhos = linhas[0];
+          const valores = linhas[1];
+          for (let col = 0; col < cabecalhos.length; col++) {
+            const tituloCol = String(cabecalhos[col] || "").trim();
+            const valorCol = String(valores[col] || "").trim();
+            if (tituloCol && /^[\d.,]+$/.test(valorCol)) {
+              associarValorAoCard(tituloCol, valorCol);
+            }
+          }
+        }
       },
       error: function(err) {
         console.error("Erro ao carregar planilha de resumo:", err);
