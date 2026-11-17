@@ -732,19 +732,15 @@
     if (cardComprasSc) cardComprasSc.remove();
   }
 
-  // 4. Função com persistência em cache para nunca deixar os números sumirem
-  function definirContadorCard(idBadge, quantidade, salvarCache = true) {
+  // 4. Função com persistência em cache
+  function definirContadorCard(idBadge, quantidade) {
     const badge = document.getElementById(idBadge);
     if (!badge) return;
     const valorNum = parseInt(String(quantidade).replace(/\D/g, ""), 10) || 0;
-    
     badge.innerText = valorNum > 0 ? valorNum : "";
-    if (salvarCache) {
-      localStorage.setItem(`cache_${idBadge}`, valorNum);
-    }
+    localStorage.setItem(`cache_${idBadge}`, valorNum);
   }
 
-  // Restaura imediatamente os últimos valores salvos enquanto busca atualizações
   function restaurarCacheContadores() {
     const ids = [
       "badge-preventivas",
@@ -754,22 +750,23 @@
       "badge-controle-gmg"
     ];
     ids.forEach(id => {
-      const salvo = localStorage.getItem(`cache_${id}`);
-      if (salvo !== null) {
-        definirContadorCard(id, salvo, false);
+      const salvo = parseInt(localStorage.getItem(`cache_${id}`), 10) || 0;
+      const badge = document.getElementById(id);
+      if (badge && salvo > 0) {
+        badge.innerText = salvo;
       }
     });
   }
 
   // =========================================================================
-  // 5. LEITURA VIA ENDPOINT GVIZ DO GOOGLE SHEETS (ESTÁVEL E SEM BLOQUEIO CORS)
+  // 5. LEITURA DIRETA DAS 5 PLANILHAS VIA EXPORT CSV (FUNCIONAL COM REDIRECT)
   // =========================================================================
   const PLANILHAS = {
-    preventivas: "https://docs.google.com/spreadsheets/d/1xVaLWWvjWFQBgMF6KMRa5E2q6d4CtwA5GD-JPrOg2Qo/gviz/tq?tqx=out:csv",
-    nccor:       "https://docs.google.com/spreadsheets/d/1iMMpk4uiAjoWDw4-guwggjJ-PnrffHgIjqP02lzHBck/gviz/tq?tqx=out:csv",
-    compras:     "https://docs.google.com/spreadsheets/d/1kXiUL_bMvlE_sKkB4jMbMbAMzk21ofnR8RWMs17owPs/gviz/tq?tqx=out:csv",
-    projetos:    "https://docs.google.com/spreadsheets/d/1v5Z7GzLWtSyYWkJPeMgQl2S_Ccf8nwJGrp24yQsfyaw/gviz/tq?tqx=out:csv",
-    gmg:         "https://docs.google.com/spreadsheets/d/1qIKdq-foHzZUd-pWBbUz201fdKLNKn3F3vrshOSlyq4/gviz/tq?tqx=out:csv"
+    preventivas: "https://docs.google.com/spreadsheets/d/1xVaLWWvjWFQBgMF6KMRa5E2q6d4CtwA5GD-JPrOg2Qo/export?format=csv",
+    nccor:       "https://docs.google.com/spreadsheets/d/1iMMpk4uiAjoWDw4-guwggjJ-PnrffHgIjqP02lzHBck/export?format=csv",
+    compras:     "https://docs.google.com/spreadsheets/d/1kXiUL_bMvlE_sKkB4jMbMbAMzk21ofnR8RWMs17owPs/export?format=csv&gid=1842816317",
+    projetos:    "https://docs.google.com/spreadsheets/d/1v5Z7GzLWtSyYWkJPeMgQl2S_Ccf8nwJGrp24yQsfyaw/export?format=csv",
+    gmg:         "https://docs.google.com/spreadsheets/d/1qIKdq-foHzZUd-pWBbUz201fdKLNKn3F3vrshOSlyq4/export?format=csv"
   };
 
   function normalizarTexto(str) {
@@ -780,25 +777,25 @@
       .trim();
   }
 
-  function lerPlanilhaCSV(url, callback) {
-    const urlFinal = `${url}&t=${Date.now()}`;
-    Papa.parse(urlFinal, {
+  function lerPlanilhaCSV(nome, url, callback) {
+    Papa.parse(url, {
       download: true,
       header: false,
       skipEmptyLines: true,
       complete: (results) => {
         if (results && results.data && results.data.length > 0) {
+          console.log(`[${nome}] Linhas carregadas:`, results.data.length, "| Cabeçalho:", results.data[0]);
           callback(results.data);
         }
       },
-      error: (err) => console.warn("Falha temporária na sincronização (mantendo cache):", url, err)
+      error: (err) => console.warn(`[${nome}] Falha na leitura (mantendo cache):`, err)
     });
   }
 
   // 5.1 Preventivas Recusadas
   function atualizarPreventivasRecusadas() {
     if (!document.getElementById("badge-preventivas")) return;
-    lerPlanilhaCSV(PLANILHAS.preventivas, (linhas) => {
+    lerPlanilhaCSV("Preventivas", PLANILHAS.preventivas, (linhas) => {
       if (linhas.length < 2) return;
       let recusadas = 0;
       linhas.slice(1).forEach(linha => {
@@ -807,6 +804,7 @@
           recusadas++;
         }
       });
+      console.log("[Preventivas] Total recusadas:", recusadas);
       definirContadorCard("badge-preventivas", recusadas);
     });
   }
@@ -814,7 +812,7 @@
   // 5.2 NC/COR - Fora do Prazo TEL
   function atualizarNcCorForaPrazo() {
     if (!document.getElementById("badge-nc-cor")) return;
-    lerPlanilhaCSV(PLANILHAS.nccor, (linhas) => {
+    lerPlanilhaCSV("NC/COR", PLANILHAS.nccor, (linhas) => {
       if (linhas.length < 2) return;
       let foraPrazo = 0;
       linhas.slice(1).forEach(linha => {
@@ -825,6 +823,7 @@
           foraPrazo++;
         }
       });
+      console.log("[NC/COR] Total fora do prazo TEL:", foraPrazo);
       definirContadorCard("badge-nc-cor", foraPrazo);
     });
   }
@@ -832,7 +831,7 @@
   // 5.3 Compras (SC) - Pedidos Pendentes (SCs sem Nº Pedido)
   function atualizarComprasPendentes() {
     if (!document.getElementById("badge-compras-sc")) return;
-    lerPlanilhaCSV(PLANILHAS.compras, (linhas) => {
+    lerPlanilhaCSV("Compras (SC)", PLANILHAS.compras, (linhas) => {
       if (linhas.length < 2) return;
       const header = linhas[0].map(h => normalizarTexto(h));
       let idxCodSC = header.findIndex(h => h.includes("codigo sc") || h === "sc" || h.includes("cod. sc"));
@@ -849,6 +848,7 @@
           scsPendentes.add(cod);
         }
       });
+      console.log("[Compras (SC)] Total SCs pendentes:", scsPendentes.size);
       definirContadorCard("badge-compras-sc", scsPendentes.size);
     });
   }
@@ -856,7 +856,7 @@
   // 5.4 Projetos Especiais - Programados para Hoje
   function atualizarProjetosHoje() {
     if (!document.getElementById("badge-projetos-especiais")) return;
-    lerPlanilhaCSV(PLANILHAS.projetos, (linhas) => {
+    lerPlanilhaCSV("Projetos Especiais", PLANILHAS.projetos, (linhas) => {
       if (linhas.length < 2) return;
       const hoje = new Date();
       const d = hoje.getDate();
@@ -867,7 +867,6 @@
       const dia = String(d).padStart(2, "0");
       const mes = String(m).padStart(2, "0");
 
-      // Formatos possíveis de data na planilha: 17/11/2026, 17/11/26, 2026-11-17
       const formatosHoje = [
         `${dia}/${mes}/${ano}`,
         `${dia}/${mes}/${anoCurto}`,
@@ -882,6 +881,7 @@
           programadosHoje++;
         }
       });
+      console.log("[Projetos Especiais] Programados para hoje:", programadosHoje);
       definirContadorCard("badge-projetos-especiais", programadosHoje);
     });
   }
@@ -889,7 +889,7 @@
   // 5.5 Controle GMG - GMGs Inoperantes
   function atualizarGmgInoperantes() {
     if (!document.getElementById("badge-controle-gmg")) return;
-    lerPlanilhaCSV(PLANILHAS.gmg, (linhas) => {
+    lerPlanilhaCSV("Controle GMG", PLANILHAS.gmg, (linhas) => {
       if (linhas.length < 2) return;
       let inoperantes = 0;
       linhas.slice(1).forEach(linha => {
@@ -898,6 +898,7 @@
           inoperantes++;
         }
       });
+      console.log("[Controle GMG] Total inoperantes:", inoperantes);
       definirContadorCard("badge-controle-gmg", inoperantes);
     });
   }
@@ -910,11 +911,9 @@
     atualizarGmgInoperantes();
   }
 
-  // 1º: Mostra instantaneamente os números salvos no cache
+  // Restaura cache imediatamente e busca atualizações
   restaurarCacheContadores();
-  // 2º: Atualiza em segundo plano com os dados mais recentes das planilhas
   atualizarTodosContadores();
-  // 3º: Sincroniza a cada 3 minutos
   setInterval(atualizarTodosContadores, 180000);
 
   // 6. Feedback visual para cards em construção
