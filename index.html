@@ -130,38 +130,38 @@
       box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
     }
 
-    /* GRID CONFIGURADA EM 5 COLUNAS */
+    /* GRID CONFIGURADA EM 4 COLUNAS E 4 LINHAS */
     .grid-container {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 11px 16px;
-      padding: 10px 32px;
-      max-width: 1520px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px 22px;
+      padding: 16px 42px;
+      max-width: 1560px;
       width: 100%;
       margin: 0 auto;
       align-content: center;
     }
 
-    /* CARDS ESCUROS FUTURISTAS COM NEON */
+    /* CARDS ESCUROS FUTURISTAS COM NEON (AMPLIADOS) */
     .card {
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
-      border-radius: 14px;
-      padding: 12px 10px;
+      border-radius: 16px;
+      padding: 18px 14px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
       box-shadow: 
-        0 8px 20px rgba(11, 26, 45, 0.22),
-        inset 0 0 0 1px rgba(0, 195, 255, 0.2);
+        0 10px 24px rgba(11, 26, 45, 0.24),
+        inset 0 0 0 1px rgba(0, 195, 255, 0.22);
       border: 1px solid rgba(0, 195, 255, 0.35);
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 92px;
+      min-height: 124px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -179,27 +179,27 @@
     }
 
     .card:hover {
-      transform: translateY(-3px) scale(1.02);
+      transform: translateY(-4px) scale(1.02);
       border-color: #00e1ff;
       box-shadow: 
-        0 14px 30px rgba(0, 140, 255, 0.25),
-        0 0 18px rgba(0, 225, 255, 0.4),
-        inset 0 0 10px rgba(0, 225, 255, 0.2);
+        0 16px 34px rgba(0, 140, 255, 0.28),
+        0 0 20px rgba(0, 225, 255, 0.45),
+        inset 0 0 12px rgba(0, 225, 255, 0.2);
     }
 
     /* BADGE CONTADOR VERMELHO NO CANTO SUPERIOR DIREITO */
     .badge-contador {
       position: absolute;
-      top: 8px;
-      right: 10px;
+      top: 10px;
+      right: 12px;
       background: linear-gradient(135deg, #ff1e42 0%, #c80028 100%);
       color: #ffffff;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 800;
-      min-width: 22px;
-      height: 22px;
-      padding: 0 7px;
-      border-radius: 12px;
+      min-width: 25px;
+      height: 25px;
+      padding: 0 8px;
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -223,8 +223,8 @@
     #card-tas-online {
       border-color: rgba(0, 230, 118, 0.4);
       box-shadow: 
-        0 8px 20px rgba(11, 26, 45, 0.22),
-        inset 0 0 0 1px rgba(0, 230, 118, 0.2);
+        0 10px 24px rgba(11, 26, 45, 0.24),
+        inset 0 0 0 1px rgba(0, 230, 118, 0.22);
     }
 
     #card-tas-online::before {
@@ -234,9 +234,9 @@
     #card-tas-online:hover {
       border-color: #00ff88;
       box-shadow: 
-        0 14px 30px rgba(0, 230, 118, 0.25),
-        0 0 18px rgba(0, 255, 136, 0.4),
-        inset 0 0 10px rgba(0, 230, 118, 0.25);
+        0 16px 34px rgba(0, 230, 118, 0.28),
+        0 0 20px rgba(0, 255, 136, 0.45),
+        inset 0 0 12px rgba(0, 230, 118, 0.25);
     }
 
     #card-tas-online svg {
@@ -281,8 +281,8 @@
       opacity: 1;
       border-color: rgba(0, 225, 255, 0.55);
       box-shadow: 
-        0 10px 24px rgba(0, 140, 255, 0.18),
-        0 0 12px rgba(0, 225, 255, 0.25);
+        0 12px 26px rgba(0, 140, 255, 0.2),
+        0 0 14px rgba(0, 225, 255, 0.28);
     }
 
     .card-em-breve:hover svg {
@@ -298,26 +298,26 @@
     /* BADGE EM BREVE NO FORMATO CÁPSULA */
     .badge-capsula {
       position: absolute;
-      top: 7px;
-      right: 9px;
+      top: 10px;
+      right: 12px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.04);
       color: #7b94ad;
-      font-size: 7px;
+      font-size: 8px;
       font-weight: 700;
       letter-spacing: 0.8px;
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: 18px;
       text-transform: uppercase;
       z-index: 2;
       backdrop-filter: blur(4px);
     }
 
-    /* ÍCONES PADRÃO */
+    /* ÍCONES PADRÃO (AMPLIADOS) */
     .card svg {
-      width: 34px;
-      height: 34px;
-      margin-bottom: 6px;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 10px;
       z-index: 1;
       stroke: #00d9ff;
       transition: transform 0.3s ease, filter 0.3s ease, stroke 0.3s ease;
@@ -330,11 +330,11 @@
       filter: drop-shadow(0 0 14px #00ffff);
     }
 
-    /* TÍTULO DO CARD */
+    /* TÍTULO DO CARD (AMPLIADO) */
     .card span.card-title {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.75px;
+      letter-spacing: 0.85px;
       text-transform: uppercase;
       z-index: 1;
       color: #e5f3ff;
@@ -429,17 +429,18 @@
       margin: 0 2px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1100px) {
       .grid-container {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        padding: 16px 24px;
       }
-    }
-
-    @media (max-width: 900px) {
       html, body {
         overflow-y: auto;
         height: auto;
       }
+    }
+
+    @media (max-width: 700px) {
       .header {
         flex-direction: column;
         gap: 10px;
@@ -450,7 +451,7 @@
         align-items: center;
       }
       .grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: 1fr;
       }
       .footer {
         flex-direction: column;
@@ -480,7 +481,7 @@
 
 <div class="grid-container">
 
-  <!-- ================= LINHA 1 (5 CARDS) ================= -->
+  <!-- ================= LINHA 1 (4 CARDS) ================= -->
 
   <!-- 1. Desempenho Regionais -->
   <a id="card-desempenho-regionais" href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
@@ -503,43 +504,31 @@
     <span class="card-title">HORAS EXTRAS</span>
   </a>
 
-  <!-- 3. Controle GMG -->
-  <a id="card-controle-gmg" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
-    <span id="badge-controle-gmg" class="badge-contador"></span>
+  <!-- 3. Histórico Volumetria -->
+  <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
+    <span id="badge-historico-volumetria" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 10h1v4H4z"></path>
-      <path d="M20 11h1v2h-1z"></path>
-      <path d="M5 8h3V6h3v2h4l2 3h2v6h-2l-2 3H8l-3-3V8z"></path>
-      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
+      <path d="M3 3v18h18"></path>
+      <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+      <circle cx="18.7" cy="8" r="1.5" fill="#00d9ff"></circle>
     </svg>
-    <span class="card-title">CONTROLE GMG</span>
+    <span class="card-title">HISTÓRICO VOLUMETRIA</span>
   </a>
 
-  <!-- 4. NC/COR -->
-  <a id="card-nc-cor" href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
-    <span id="badge-nc-cor" class="badge-contador"></span>
+  <!-- 4. Compras (SC) -->
+  <a id="card-compras-sc" href="https://spi-tel.github.io/Compras/" class="card" target="_blank">
+    <span id="badge-compras-sc" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-      <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-      <path d="m9 14 2 2 4-4"></path>
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
     </svg>
-    <span class="card-title">NC/COR</span>
+    <span class="card-title">COMPRAS (SC)</span>
   </a>
 
-  <!-- 5. Furto e Vandalismo -->
-  <a id="card-furto-vandalismo" href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
-    <span id="badge-furto-vandalismo" class="badge-contador"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #ff9900; filter: drop-shadow(0 0 8px rgba(255, 153, 0, 0.6));">
-      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
-      <line x1="12" y1="9" x2="12" y2="13"></line>
-      <line x1="12" y1="17" x2="12.01" y2="17"></line>
-    </svg>
-    <span class="card-title">FURTO E VANDALISMO</span>
-  </a>
+  <!-- ================= LINHA 2 (4 CARDS) ================= -->
 
-  <!-- ================= LINHA 2 (5 CARDS) ================= -->
-
-  <!-- 6. TA - Causa Perda -->
+  <!-- 5. TA - Causa Perda -->
   <a id="card-causas-perda-tas" href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
     <span id="badge-causas-perda-tas" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -551,7 +540,7 @@
     <span class="card-title">TA - CAUSA PERDA</span>
   </a>
 
-  <!-- 7. TAs Online (Ícone Verde) -->
+  <!-- 6. TAs Online (Ícone Verde) -->
   <a id="card-tas-online" href="https://spi-tel.github.io/Portal-TAs-Online/" class="card" target="_blank">
     <span id="badge-tas-online" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -565,7 +554,75 @@
     <span class="card-title" style="color: #c9fddb;">TAS ONLINE</span>
   </a>
 
-  <!-- 8. HL5 -->
+  <!-- 7. Bairros Críticos (Em Construção) -->
+  <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
+    <div class="badge-capsula">EM BREVE</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    <span class="card-title">BAIRROS CRÍTICOS</span>
+  </a>
+
+  <!-- 8. Produção FAT-B (Em Construção) -->
+  <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
+    <div class="badge-capsula">EM BREVE</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"></line>
+      <line x1="12" y1="20" x2="12" y2="4"></line>
+      <line x1="6" y1="20" x2="6" y2="14"></line>
+    </svg>
+    <span class="card-title">PRODUÇÃO FAT-B</span>
+  </a>
+
+  <!-- ================= LINHA 3 (4 CARDS) ================= -->
+
+  <!-- 9. Controle GMG -->
+  <a id="card-controle-gmg" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
+    <span id="badge-controle-gmg" class="badge-contador"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 10h1v4H4z"></path>
+      <path d="M20 11h1v2h-1z"></path>
+      <path d="M5 8h3V6h3v2h4l2 3h2v6h-2l-2 3H8l-3-3V8z"></path>
+      <polygon points="12.5 9 10 13 12 13 11.5 17 14.5 12.5 12.5 12.5 12.5 9" fill="#00d9ff" stroke="#00d9ff" stroke-width="0.5"></polygon>
+    </svg>
+    <span class="card-title">CONTROLE GMG</span>
+  </a>
+
+  <!-- 10. NC/COR -->
+  <a id="card-nc-cor" href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
+    <span id="badge-nc-cor" class="badge-contador"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+      <path d="m9 14 2 2 4-4"></path>
+    </svg>
+    <span class="card-title">NC/COR</span>
+  </a>
+
+  <!-- 11. Preventivas -->
+  <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
+    <span id="badge-preventivas" class="badge-contador"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+    </svg>
+    <span class="card-title">PREVENTIVAS</span>
+  </a>
+
+  <!-- 12. Furto e Vandalismo -->
+  <a id="card-furto-vandalismo" href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
+    <span id="badge-furto-vandalismo" class="badge-contador"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #ff9900; filter: drop-shadow(0 0 8px rgba(255, 153, 0, 0.6));">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+      <line x1="12" y1="9" x2="12" y2="13"></line>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    </svg>
+    <span class="card-title">FURTO E VANDALISMO</span>
+  </a>
+
+  <!-- ================= LINHA 4 (4 CARDS) ================= -->
+
+  <!-- 13. HL5 -->
   <a id="card-hl5" href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
     <span id="badge-hl5" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -581,7 +638,7 @@
     <span class="card-title">HL5</span>
   </a>
 
-  <!-- 9. USCA - Modernização -->
+  <!-- 14. USCA - Modernização -->
   <a id="card-usca" href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
     <span id="badge-usca" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -592,18 +649,7 @@
     <span class="card-title">USCA - MODERNIZAÇÃO</span>
   </a>
 
-  <!-- 10. Preventivas -->
-  <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
-    <span id="badge-preventivas" class="badge-contador"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-    </svg>
-    <span class="card-title">PREVENTIVAS</span>
-  </a>
-
-  <!-- ================= LINHA 3+ ================= -->
-
-  <!-- 11. Projetos Especiais -->
+  <!-- 15. Projetos Especiais -->
   <a id="card-projetos-especiais" href="https://spi-tel.github.io/Projetos-Especiais/" class="card" target="_blank">
     <span id="badge-projetos-especiais" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -614,29 +660,7 @@
     <span class="card-title">PROJETOS ESPECIAIS</span>
   </a>
 
-  <!-- 12. Histórico Volumetria -->
-  <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
-    <span id="badge-historico-volumetria" class="badge-contador"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 3v18h18"></path>
-      <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
-      <circle cx="18.7" cy="8" r="1.5" fill="#00d9ff"></circle>
-    </svg>
-    <span class="card-title">HISTÓRICO VOLUMETRIA</span>
-  </a>
-
-  <!-- 13. Compras (SC) -->
-  <a id="card-compras-sc" href="https://spi-tel.github.io/Compras/" class="card" target="_blank">
-    <span id="badge-compras-sc" class="badge-contador"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="9" cy="21" r="1"></circle>
-      <circle cx="20" cy="21" r="1"></circle>
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
-    <span class="card-title">COMPRAS (SC)</span>
-  </a>
-
-  <!-- 14. Sobressalentes (Em Construção) -->
+  <!-- 16. Sobressalentes (Em Construção) -->
   <a id="card-sobressalentes" class="card card-em-breve" onclick="moduloEmConstrucao('Sobressalentes')">
     <div class="badge-capsula">EM BREVE</div>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -645,27 +669,6 @@
       <line x1="12" y1="22.08" x2="12" y2="12"></line>
     </svg>
     <span class="card-title">SOBRESSALENTES</span>
-  </a>
-
-  <!-- 15. Produção FAT-B (Em Construção) -->
-  <a id="card-producao-fatb" class="card card-em-breve" onclick="moduloEmConstrucao('Produção FAT-B')">
-    <div class="badge-capsula">EM BREVE</div>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10"></line>
-      <line x1="12" y1="20" x2="12" y2="4"></line>
-      <line x1="6" y1="20" x2="6" y2="14"></line>
-    </svg>
-    <span class="card-title">PRODUÇÃO FAT-B</span>
-  </a>
-
-  <!-- 16. Bairros Críticos (Em Construção) -->
-  <a id="card-bairros-criticos" class="card card-em-breve" onclick="moduloEmConstrucao('Bairros Críticos')">
-    <div class="badge-capsula">EM BREVE</div>
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-      <circle cx="12" cy="10" r="3"></circle>
-    </svg>
-    <span class="card-title">BAIRROS CRÍTICOS</span>
   </a>
 
 </div>
