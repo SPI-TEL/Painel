@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLIN-SPI - PAINEL DE CONTROLE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- PapaParse para leitura automática da planilha de resumo CSV -->
+  <!-- PapaParse para leitura automática das planilhas Google -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     * {
@@ -212,7 +212,6 @@
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    /* Oculta apenas se estiver realmente vazia */
     .badge-contador:empty {
       display: none;
     }
@@ -744,96 +743,146 @@
     badge.innerText = valorNum > 0 ? valorNum : "";
   }
 
-  // 5. Leitura automática da Planilha de Resumo (CSV) - Suporta formato Vertical e Horizontal
-  const CSV_RESUMO_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8h8eGf-6Ys6XuH14KEkFQkgyg92OsETxNqzxOHjoSyxEc49Nm3dYMnWsflOv__ZGjfP-KxqZsIV1i/pub?gid=0&single=true&output=csv";
+  // =========================================================================
+  // 5. LEITURA DIRETA DAS 5 PLANILHAS ESPECÍFICAS DO GOOGLE SHEETS
+  // =========================================================================
+  const PLANILHAS = {
+    preventivas: "https://docs.google.com/spreadsheets/d/1xVaLWWvjWFQBgMF6KMRa5E2q6d4CtwA5GD-JPrOg2Qo/export?format=csv",
+    nccor:       "https://docs.google.com/spreadsheets/d/1iMMpk4uiAjoWDw4-guwggjJ-PnrffHgIjqP02lzHBck/export?format=csv",
+    compras:     "https://docs.google.com/spreadsheets/d/1kXiUL_bMvlE_sKkB4jMbMbAMzk21ofnR8RWMs17owPs/export?format=csv",
+    projetos:    "https://docs.google.com/spreadsheets/d/1v5Z7GzLWtSyYWkJPeMgQl2S_Ccf8nwJGrp24yQsfyaw/export?format=csv",
+    gmg:         "https://docs.google.com/spreadsheets/d/1qIKdq-foHzZUd-pWBbUz201fdKLNKn3F3vrshOSlyq4/export?format=csv"
+  };
 
-  function associarValorAoCard(textoIdentificador, valor) {
-    const txt = textoIdentificador.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const num = parseInt(String(valor).replace(/\D/g, ""), 10) || 0;
-    if (num <= 0) return;
-
-    if (txt.includes("regional") || txt.includes("regionais")) {
-      definirContadorCard("badge-desempenho-regionais", num);
-    } else if (txt.includes("hora") || txt.includes("extra")) {
-      definirContadorCard("badge-horas-extras", num);
-    } else if (txt.includes("gmg")) {
-      definirContadorCard("badge-controle-gmg", num);
-    } else if (txt.includes("nc") || txt.includes("cor")) {
-      definirContadorCard("badge-nc-cor", num);
-    } else if (txt.includes("furto") || txt.includes("vandalismo")) {
-      definirContadorCard("badge-furto-vandalismo", num);
-    } else if (txt.includes("perda") || txt.includes("perca") || txt.includes("causa")) {
-      definirContadorCard("badge-causas-perda-tas", num);
-    } else if (txt.includes("online") || txt.includes("ta ") || txt === "tas") {
-      definirContadorCard("badge-tas-online", num);
-    } else if (txt.includes("hl5")) {
-      definirContadorCard("badge-hl5", num);
-    } else if (txt.includes("usca") || txt.includes("modernizacao")) {
-      definirContadorCard("badge-usca", num);
-    } else if (txt.includes("preventiva")) {
-      definirContadorCard("badge-preventivas", num);
-    } else if (txt.includes("projeto")) {
-      definirContadorCard("badge-projetos-especiais", num);
-    } else if (txt.includes("volumetria") || txt.includes("historico") || txt.includes("sla")) {
-      definirContadorCard("badge-historico-volumetria", num);
-    } else if (txt.includes("compra") || txt.includes("sc")) {
-      definirContadorCard("badge-compras-sc", num);
-    }
+  function normalizarTexto(str) {
+    return String(str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
   }
 
-  function carregarResumoPlanilha() {
-    const urlSemCache = `${CSV_RESUMO_BASE}&t=${new Date().getTime()}`;
-
+  function lerPlanilhaCSV(url, callback) {
+    const urlSemCache = `${url}&t=${new Date().getTime()}`;
     Papa.parse(urlSemCache, {
       download: true,
       header: false,
       skipEmptyLines: true,
-      complete: function(results) {
-        const linhas = results.data;
-        console.log("Dados lidos da planilha de resumo:", linhas);
-        if (!linhas || linhas.length === 0) return;
-
-        // MODO 1: Leitura Vertical (Nome do card e número na mesma linha)
-        linhas.forEach(linha => {
-          let textoLinha = "";
-          let numeroLinha = null;
-
-          linha.forEach(celula => {
-            const val = String(celula || "").trim();
-            if (/^[\d.,]+$/.test(val) && /\d/.test(val)) {
-              numeroLinha = val;
-            } else if (val.length > 1) {
-              textoLinha += " " + val;
-            }
-          });
-
-          if (textoLinha && numeroLinha !== null) {
-            associarValorAoCard(textoLinha, numeroLinha);
-          }
-        });
-
-        // MODO 2: Leitura Horizontal (Linha 1 = Cabeçalhos dos cards, Linha 2 = Valores)
-        if (linhas.length >= 2) {
-          const cabecalhos = linhas[0];
-          const valores = linhas[1];
-          for (let col = 0; col < cabecalhos.length; col++) {
-            const tituloCol = String(cabecalhos[col] || "").trim();
-            const valorCol = String(valores[col] || "").trim();
-            if (tituloCol && /^[\d.,]+$/.test(valorCol)) {
-              associarValorAoCard(tituloCol, valorCol);
-            }
-          }
-        }
-      },
-      error: function(err) {
-        console.error("Erro ao carregar planilha de resumo:", err);
-      }
+      complete: (results) => callback(results.data || []),
+      error: (err) => console.error("Erro ao carregar planilha:", url, err)
     });
   }
 
-  // Inicia a leitura assim que a página abre e atualiza a cada 2 minutos
-  carregarResumoPlanilha();
-  setInterval(carregarResumoPlanilha, 120000);
+  // 5.1 Preventivas Recusadas
+  function atualizarPreventivasRecusadas() {
+    if (!document.getElementById("badge-preventivas")) return;
+    lerPlanilhaCSV(PLANILHAS.preventivas, (linhas) => {
+      if (linhas.length < 2) return;
+      let recusadas = 0;
+      linhas.slice(1).forEach(linha => {
+        const textoLinha = normalizarTexto(linha.join(" "));
+        if (textoLinha.includes("recusad")) {
+          recusadas++;
+        }
+      });
+      definirContadorCard("badge-preventivas", recusadas);
+    });
+  }
+
+  // 5.2 NC/COR - Fora do Prazo TEL
+  function atualizarNcCorForaPrazo() {
+    if (!document.getElementById("badge-nc-cor")) return;
+    lerPlanilhaCSV(PLANILHAS.nccor, (linhas) => {
+      if (linhas.length < 2) return;
+      let foraPrazo = 0;
+      linhas.slice(1).forEach(linha => {
+        const textoLinha = normalizarTexto(linha.join(" "));
+        const isForaPrazo = textoLinha.includes("fora do prazo") || textoLinha.includes("atrasad");
+        // Se houver coluna identificando TEL/VIVO, prioriza TEL; caso não mencione VIVO, conta também
+        const isTel = textoLinha.includes("tel") || !textoLinha.includes("vivo");
+        if (isForaPrazo && isTel) {
+          foraPrazo++;
+        }
+      });
+      definirContadorCard("badge-nc-cor", foraPrazo);
+    });
+  }
+
+  // 5.3 Compras (SC) - Pedidos Pendentes (SCs sem Nº Pedido)
+  function atualizarComprasPendentes() {
+    if (!document.getElementById("badge-compras-sc")) return;
+    lerPlanilhaCSV(PLANILHAS.compras, (linhas) => {
+      if (linhas.length < 2) return;
+      const header = linhas[0].map(h => normalizarTexto(h));
+      let idxCodSC = header.findIndex(h => h.includes("codigo sc") || h === "sc");
+      let idxNumPed = header.findIndex(h => h.includes("pedido") && (h.includes("n") || h.includes("num")));
+
+      if (idxCodSC === -1) idxCodSC = 0;
+      if (idxNumPed === -1) idxNumPed = 56;
+
+      const scsPendentes = new Set();
+      linhas.slice(1).forEach(r => {
+        const cod = String(r[idxCodSC] || "").trim();
+        const ped = String(r[idxNumPed] || "").trim();
+        if (cod && !ped) {
+          scsPendentes.add(cod);
+        }
+      });
+      definirContadorCard("badge-compras-sc", scsPendentes.size);
+    });
+  }
+
+  // 5.4 Projetos Especiais - Programados para Hoje
+  function atualizarProjetosHoje() {
+    if (!document.getElementById("badge-projetos-especiais")) return;
+    lerPlanilhaCSV(PLANILHAS.projetos, (linhas) => {
+      if (linhas.length < 2) return;
+      const hoje = new Date();
+      const dia = String(hoje.getDate()).padStart(2, "0");
+      const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+      const ano = hoje.getFullYear();
+
+      const dataHojeBR = `${dia}/${mes}/${ano}`; // DD/MM/AAAA
+      const dataHojeISO = `${ano}-${mes}-${dia}`; // AAAA-MM-DD
+
+      let programadosHoje = 0;
+      linhas.slice(1).forEach(linha => {
+        const textoLinha = linha.join(" ");
+        if (textoLinha.includes(dataHojeBR) || textoLinha.includes(dataHojeISO)) {
+          programadosHoje++;
+        }
+      });
+      definirContadorCard("badge-projetos-especiais", programadosHoje);
+    });
+  }
+
+  // 5.5 Controle GMG - GMGs Inoperantes
+  function atualizarGmgInoperantes() {
+    if (!document.getElementById("badge-controle-gmg")) return;
+    lerPlanilhaCSV(PLANILHAS.gmg, (linhas) => {
+      if (linhas.length < 2) return;
+      let inoperantes = 0;
+      linhas.slice(1).forEach(linha => {
+        const textoLinha = normalizarTexto(linha.join(" "));
+        if (textoLinha.includes("inoperante")) {
+          inoperantes++;
+        }
+      });
+      definirContadorCard("badge-controle-gmg", inoperantes);
+    });
+  }
+
+  function atualizarTodosContadores() {
+    atualizarPreventivasRecusadas();
+    atualizarNcCorForaPrazo();
+    atualizarComprasPendentes();
+    atualizarProjetosHoje();
+    atualizarGmgInoperantes();
+  }
+
+  // Executa imediatamente ao abrir e atualiza a cada 2 minutos
+  atualizarTodosContadores();
+  setInterval(atualizarTodosContadores, 120000);
 
   // 6. Feedback visual para cards em construção
   let toastTimer;
