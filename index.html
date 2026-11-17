@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLIN-SPI - PAINEL DE CONTROLE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- PapaParse para leitura rápida das planilhas CSV -->
+  <!-- PapaParse para leitura automática da planilha de resumo CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     * {
@@ -212,7 +212,7 @@
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    /* Oculta apenas se estiver realmente vazia (mostra se tiver número > 0) */
+    /* Oculta apenas se estiver realmente vazia */
     .badge-contador:empty {
       display: none;
     }
@@ -607,7 +607,7 @@
 
   <!-- ================= LINHA 3+ ================= -->
 
-  <!-- 11. Projetos Especiais (Liberado para TODOS os perfis) -->
+  <!-- 11. Projetos Especiais -->
   <a id="card-projetos-especiais" href="https://spi-tel.github.io/Projetos-Especiais/" class="card" target="_blank">
     <span id="badge-projetos-especiais" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -618,7 +618,7 @@
     <span class="card-title">PROJETOS ESPECIAIS</span>
   </a>
 
-  <!-- 12. Histórico Volumetria (Exclusivo para Gerente e Administrador) -->
+  <!-- 12. Histórico Volumetria -->
   <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
     <span id="badge-historico-volumetria" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -629,7 +629,7 @@
     <span class="card-title">HISTÓRICO VOLUMETRIA</span>
   </a>
 
-  <!-- 13. Compras (SC) (Exclusivo para Gerente e Administrador) -->
+  <!-- 13. Compras (SC) -->
   <a id="card-compras-sc" href="https://spi-tel.github.io/Compras/" class="card" target="_blank">
     <span id="badge-compras-sc" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -736,75 +736,81 @@
     if (cardComprasSc) cardComprasSc.remove();
   }
 
-  // 4. Sistema de Contadores Vermelhos nos Cards
+  // 4. Função para exibir o número na badge vermelha
   function definirContadorCard(idBadge, quantidade) {
     const badge = document.getElementById(idBadge);
     if (!badge) return;
-    const valorNum = parseInt(quantidade, 10) || 0;
+    const valorNum = parseInt(String(quantidade).replace(/\D/g, ""), 10) || 0;
     badge.innerText = valorNum > 0 ? valorNum : "";
   }
 
-  // Lê valores salvos no localStorage (caso algum sub-portal já tenha atualizado)
-  function carregarContadoresLocalStorage() {
-    const mapa = {
-      "badge-desempenho-regionais": localStorage.getItem("qtd_desempenho_regionais"),
-      "badge-horas-extras": localStorage.getItem("qtd_horas_extras"),
-      "badge-controle-gmg": localStorage.getItem("qtd_controle_gmg"),
-      "badge-nc-cor": localStorage.getItem("qtd_nc_cor"),
-      "badge-furto-vandalismo": localStorage.getItem("qtd_furto_vandalismo"),
-      "badge-causas-perda-tas": localStorage.getItem("qtd_causas_perda_tas"),
-      "badge-tas-online": localStorage.getItem("qtd_tas_online"),
-      "badge-hl5": localStorage.getItem("qtd_hl5"),
-      "badge-usca": localStorage.getItem("qtd_usca"),
-      "badge-preventivas": localStorage.getItem("qtd_preventivas"),
-      "badge-projetos-especiais": localStorage.getItem("qtd_projetos_especiais"),
-      "badge-historico-volumetria": localStorage.getItem("qtd_historico_volumetria"),
-      "badge-compras-sc": localStorage.getItem("qtd_compras_sc")
-    };
+  // 5. Leitura automática da Planilha de Resumo (CSV)
+  const CSV_RESUMO_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8h8eGf-6Ys6XuH14KEkFQkgyg92OsETxNqzxOHjoSyxEc49Nm3dYMnWsflOv__ZGjfP-KxqZsIV1i/pub?gid=0&single=true&output=csv";
 
-    for (const [id, qtd] of Object.entries(mapa)) {
-      if (qtd) definirContadorCard(id, qtd);
-    }
-  }
-
-  // =========================================================================
-  // 5. BUSCA AUTOMÁTICA NAS PLANILHAS GOOGLE (CSV) PARA PREENCHER OS CARDS
-  // =========================================================================
-  const CSV_COMPRAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfn6Ra2r7-hXrKjkSl1BVdZm57NEjZ4jH85aWrIZAnwoTTUaAx4Km2596IZceVqfLB--P7IKZV4Em3/pub?gid=1842816317&single=true&output=csv";
-
-  function carregarDadosComprasSC() {
-    if (!document.getElementById("badge-compras-sc")) return;
-    Papa.parse(CSV_COMPRAS, {
+  function carregarResumoPlanilha() {
+    Papa.parse(CSV_RESUMO_URL, {
       download: true,
       header: false,
       skipEmptyLines: true,
       complete: function(results) {
         const linhas = results.data;
-        if (!linhas || linhas.length < 2) return;
-        const header = linhas[0];
-        const idxCodSC = header.findIndex(h => h && h.trim().toLowerCase() === "código sc");
-        const idxNumPed = header.findIndex(h => h && h.trim().toLowerCase() === "nº pedido");
-        const cSC = idxCodSC !== -1 ? idxCodSC : 0;
-        const cPed = idxNumPed !== -1 ? idxNumPed : 56;
+        if (!linhas || linhas.length === 0) return;
 
-        const scsPendentes = new Set();
-        linhas.slice(1).forEach(r => {
-          const cod = (r[cSC] || "").trim();
-          const ped = (r[cPed] || "").trim();
-          if (cod && !ped) {
-            scsPendentes.add(cod);
+        linhas.forEach(linha => {
+          // Procura em cada linha o nome do módulo e o valor numérico correspondente
+          const textoLinha = linha.join(" ").toLowerCase();
+          
+          // Extrai o primeiro número inteiro válido encontrado nas células da linha
+          let valorEncontrado = 0;
+          for (let i = 0; i < linha.length; i++) {
+            const celula = String(linha[i] || "").trim();
+            if (/^\d+$/.test(celula)) {
+              valorEncontrado = parseInt(celula, 10);
+              break;
+            }
+          }
+
+          if (valorEncontrado <= 0) return;
+
+          // Mapeamento inteligente por palavra-chave para cada card
+          if (textoLinha.includes("regional") || textoLinha.includes("regionais")) {
+            definirContadorCard("badge-desempenho-regionais", valorEncontrado);
+          } else if (textoLinha.includes("hora") || textoLinha.includes("extra")) {
+            definirContadorCard("badge-horas-extras", valorEncontrado);
+          } else if (textoLinha.includes("gmg")) {
+            definirContadorCard("badge-controle-gmg", valorEncontrado);
+          } else if (textoLinha.includes("nc") || textoLinha.includes("cor")) {
+            definirContadorCard("badge-nc-cor", valorEncontrado);
+          } else if (textoLinha.includes("furto") || textoLinha.includes("vandalismo")) {
+            definirContadorCard("badge-furto-vandalismo", valorEncontrado);
+          } else if (textoLinha.includes("perda") || textoLinha.includes("perca")) {
+            definirContadorCard("badge-causas-perda-tas", valorEncontrado);
+          } else if (textoLinha.includes("online") || textoLinha.includes("ta ")) {
+            definirContadorCard("badge-tas-online", valorEncontrado);
+          } else if (textoLinha.includes("hl5")) {
+            definirContadorCard("badge-hl5", valorEncontrado);
+          } else if (textoLinha.includes("usca")) {
+            definirContadorCard("badge-usca", valorEncontrado);
+          } else if (textoLinha.includes("preventiva")) {
+            definirContadorCard("badge-preventivas", valorEncontrado);
+          } else if (textoLinha.includes("projeto")) {
+            definirContadorCard("badge-projetos-especiais", valorEncontrado);
+          } else if (textoLinha.includes("volumetria") || textoLinha.includes("historico") || textoLinha.includes("histórico")) {
+            definirContadorCard("badge-historico-volumetria", valorEncontrado);
+          } else if (textoLinha.includes("compra") || textoLinha.includes("sc")) {
+            definirContadorCard("badge-compras-sc", valorEncontrado);
           }
         });
-
-        definirContadorCard("badge-compras-sc", scsPendentes.size);
-        localStorage.setItem("qtd_compras_sc", scsPendentes.size);
+      },
+      error: function(err) {
+        console.error("Erro ao carregar planilha de resumo:", err);
       }
     });
   }
 
-  // Executa o carregamento ao abrir o painel
-  carregarContadoresLocalStorage();
-  carregarDadosComprasSC();
+  // Inicia a leitura assim que a página abre e atualiza a cada 2 minutos
+  carregarResumoPlanilha();
+  setInterval(carregarResumoPlanilha, 120000);
 
   // 6. Feedback visual para cards em construção
   let toastTimer;
