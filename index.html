@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLIN-SPI - PAINEL DE CONTROLE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- PapaParse para leitura rápida das planilhas CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -49,13 +51,13 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(0, 212, 255, 0.35);
-      padding: 10px 36px;
+      padding: 8px 36px;
       position: relative;
       box-shadow: 0 4px 20px rgba(7, 19, 36, 0.35), 0 1px 0 rgba(0, 212, 255, 0.2);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      min-height: 58px;
+      min-height: 54px;
       flex-shrink: 0;
       z-index: 10;
     }
@@ -68,7 +70,7 @@
     }
 
     #nome-usuario {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       color: #f1f7fd;
       text-shadow: 0 0 10px rgba(0, 180, 255, 0.3);
@@ -79,7 +81,7 @@
       color: #ffffff;
       padding: 2px 8px;
       border-radius: 10px;
-      font-size: 9.5px;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       font-weight: 700;
@@ -88,7 +90,7 @@
     }
 
     .last-access {
-      font-size: 10px;
+      font-size: 9.5px;
       color: #7fa4ca;
       letter-spacing: 0.2px;
       font-weight: 500;
@@ -96,7 +98,7 @@
 
     /* TÍTULO DO CABEÇALHO */
     .header-title {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 2px;
       color: #e2f1ff;
@@ -110,7 +112,7 @@
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.5);
       color: #ff7676;
-      padding: 6px 15px;
+      padding: 6px 14px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 700;
@@ -130,13 +132,13 @@
       box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
     }
 
-    /* GRID CONFIGURADA EM 5 COLUNAS */
+    /* GRID CONFIGURADA EM 5 COLUNAS AJUSTADA PARA 4 LINHAS */
     .grid-container {
       flex: 1;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 14px 18px;
-      padding: 14px 32px;
+      gap: 11px 16px;
+      padding: 10px 32px;
       max-width: 1520px;
       width: 100%;
       margin: 0 auto;
@@ -147,21 +149,21 @@
     .card {
       position: relative;
       background: linear-gradient(155deg, rgba(13, 31, 56, 0.94) 0%, rgba(7, 18, 34, 0.98) 100%);
-      border-radius: 16px;
-      padding: 15px 10px;
+      border-radius: 14px;
+      padding: 12px 10px;
       text-align: center;
       color: #ffffff;
       text-decoration: none;
       box-shadow: 
-        0 10px 25px rgba(11, 26, 45, 0.25),
+        0 8px 20px rgba(11, 26, 45, 0.22),
         inset 0 0 0 1px rgba(0, 195, 255, 0.2);
       border: 1px solid rgba(0, 195, 255, 0.35);
-      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 112px;
+      min-height: 92px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -179,19 +181,19 @@
     }
 
     .card:hover {
-      transform: translateY(-4px) scale(1.02);
+      transform: translateY(-3px) scale(1.02);
       border-color: #00e1ff;
       box-shadow: 
-        0 16px 36px rgba(0, 140, 255, 0.25),
-        0 0 20px rgba(0, 225, 255, 0.4),
-        inset 0 0 12px rgba(0, 225, 255, 0.2);
+        0 14px 30px rgba(0, 140, 255, 0.25),
+        0 0 18px rgba(0, 225, 255, 0.4),
+        inset 0 0 10px rgba(0, 225, 255, 0.2);
     }
 
     /* BADGE CONTADOR VERMELHO NO CANTO SUPERIOR DIREITO */
     .badge-contador {
       position: absolute;
-      top: 9px;
-      right: 11px;
+      top: 8px;
+      right: 10px;
       background: linear-gradient(135deg, #ff1e42 0%, #c80028 100%);
       color: #ffffff;
       font-size: 11px;
@@ -203,29 +205,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 140, 155, 0.65);
-      box-shadow: 0 0 12px rgba(255, 30, 66, 0.75);
+      border: 1px solid rgba(255, 140, 155, 0.7);
+      box-shadow: 0 0 12px rgba(255, 30, 66, 0.85);
       z-index: 3;
       letter-spacing: 0.3px;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    /* Oculta a badge automaticamente se estiver vazia ou com valor 0 */
-    .badge-contador:empty,
-    .badge-contador[data-valor="0"] {
+    /* Oculta apenas se estiver realmente vazia (mostra se tiver número > 0) */
+    .badge-contador:empty {
       display: none;
     }
 
     .card:hover .badge-contador {
-      transform: scale(1.08);
-      box-shadow: 0 0 16px rgba(255, 45, 85, 0.95);
+      transform: scale(1.1);
+      box-shadow: 0 0 16px rgba(255, 45, 85, 1);
     }
 
     /* CARD TAS ONLINE COM IDENTIDADE VERDE NEON */
     #card-tas-online {
       border-color: rgba(0, 230, 118, 0.4);
       box-shadow: 
-        0 10px 25px rgba(11, 26, 45, 0.25),
+        0 8px 20px rgba(11, 26, 45, 0.22),
         inset 0 0 0 1px rgba(0, 230, 118, 0.2);
     }
 
@@ -236,9 +237,9 @@
     #card-tas-online:hover {
       border-color: #00ff88;
       box-shadow: 
-        0 16px 36px rgba(0, 230, 118, 0.25),
-        0 0 20px rgba(0, 255, 136, 0.4),
-        inset 0 0 12px rgba(0, 230, 118, 0.25);
+        0 14px 30px rgba(0, 230, 118, 0.25),
+        0 0 18px rgba(0, 255, 136, 0.4),
+        inset 0 0 10px rgba(0, 230, 118, 0.25);
     }
 
     #card-tas-online svg {
@@ -260,7 +261,7 @@
     .card-em-breve {
       background: linear-gradient(155deg, rgba(13, 27, 47, 0.75) 0%, rgba(7, 17, 31, 0.82) 100%);
       border: 1px solid rgba(0, 195, 255, 0.14);
-      box-shadow: 0 6px 16px rgba(11, 26, 45, 0.15);
+      box-shadow: 0 6px 14px rgba(11, 26, 45, 0.15);
       opacity: 0.72;
     }
 
@@ -283,8 +284,8 @@
       opacity: 1;
       border-color: rgba(0, 225, 255, 0.55);
       box-shadow: 
-        0 12px 28px rgba(0, 140, 255, 0.18),
-        0 0 14px rgba(0, 225, 255, 0.25);
+        0 10px 24px rgba(0, 140, 255, 0.18),
+        0 0 12px rgba(0, 225, 255, 0.25);
     }
 
     .card-em-breve:hover svg {
@@ -300,15 +301,15 @@
     /* BADGE EM BREVE NO FORMATO CÁPSULA */
     .badge-capsula {
       position: absolute;
-      top: 8px;
-      right: 10px;
+      top: 7px;
+      right: 9px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.04);
       color: #7b94ad;
-      font-size: 7.5px;
+      font-size: 7px;
       font-weight: 700;
       letter-spacing: 0.8px;
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 18px;
       text-transform: uppercase;
       z-index: 2;
@@ -317,31 +318,31 @@
 
     /* ÍCONES PADRÃO */
     .card svg {
-      width: 38px;
-      height: 38px;
-      margin-bottom: 7px;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 6px;
       z-index: 1;
       stroke: #00d9ff;
-      transition: transform 0.35s ease, filter 0.35s ease, stroke 0.35s ease;
+      transition: transform 0.3s ease, filter 0.3s ease, stroke 0.3s ease;
       filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.5));
     }
 
     .card:hover svg {
-      transform: scale(1.12) translateY(-2px);
+      transform: scale(1.1) translateY(-2px);
       stroke: #ffffff;
       filter: drop-shadow(0 0 14px #00ffff);
     }
 
     /* TÍTULO DO CARD */
     .card span.card-title {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.75px;
       text-transform: uppercase;
       z-index: 1;
       color: #e5f3ff;
       transition: color 0.3s ease, text-shadow 0.3s ease;
-      line-height: 1.35;
+      line-height: 1.3;
     }
 
     .card:hover span.card-title {
@@ -352,7 +353,7 @@
     /* TOAST / ALERTA DE EM CONSTRUÇÃO */
     #toast-construcao {
       position: fixed;
-      bottom: 24px;
+      bottom: 48px;
       right: 24px;
       background: rgba(7, 19, 36, 0.95);
       border: 1px solid rgba(0, 212, 255, 0.4);
@@ -387,14 +388,14 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-top: 1px solid rgba(0, 212, 255, 0.25);
-      padding: 8px 36px;
+      padding: 7px 36px;
       color: #8da6c3;
       font-size: 11px;
       letter-spacing: 0.4px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 38px;
+      min-height: 34px;
       flex-shrink: 0;
       z-index: 10;
     }
@@ -418,7 +419,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 10.5px;
+      font-size: 10px;
     }
 
     .footer-right strong {
@@ -431,24 +432,7 @@
       margin: 0 2px;
     }
 
-    /* RESPONSIVIDADE PARA MONITORES COM MENOS ALTURA */
-    @media (max-height: 800px) {
-      .grid-container {
-        gap: 10px 14px;
-        padding: 10px 24px;
-      }
-      .card {
-        min-height: 98px;
-        padding: 10px 6px;
-      }
-      .card svg {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 5px;
-      }
-    }
-
-    /* ADAPTAÇÃO PARA TABLETS E TELAS MENORES */
+    /* ADAPTAÇÃO PARA TELAS MENORES */
     @media (max-width: 1200px) {
       .grid-container {
         grid-template-columns: repeat(4, 1fr);
@@ -504,7 +488,7 @@
 
   <!-- 1. Desempenho Regionais -->
   <a id="card-desempenho-regionais" href="https://spi-tel.github.io/Desempenho-SPI---Regionais/" class="card" target="_blank">
-    <span id="badge-desempenho-regionais" class="badge-contador" data-valor="0"></span>
+    <span id="badge-desempenho-regionais" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
       <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -515,7 +499,7 @@
 
   <!-- 2. Horas Extras -->
   <a id="card-horas-extras" href="https://spi-tel.github.io/Fechamento-Horas-Extras/" class="card" target="_blank">
-    <span id="badge-horas-extras" class="badge-contador" data-valor="0"></span>
+    <span id="badge-horas-extras" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
       <polyline points="12 6 12 12 16 14"></polyline>
@@ -525,7 +509,7 @@
 
   <!-- 3. Controle GMG -->
   <a id="card-controle-gmg" href="https://spi-tel.github.io/Controle-GMGM/" class="card" target="_blank">
-    <span id="badge-controle-gmg" class="badge-contador" data-valor="0"></span>
+    <span id="badge-controle-gmg" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 10h1v4H4z"></path>
       <path d="M20 11h1v2h-1z"></path>
@@ -537,7 +521,7 @@
 
   <!-- 4. NC/COR -->
   <a id="card-nc-cor" href="https://spi-tel.github.io/NC-COR/" class="card" target="_blank">
-    <span id="badge-nc-cor" class="badge-contador" data-valor="0"></span>
+    <span id="badge-nc-cor" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
       <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
@@ -548,7 +532,7 @@
 
   <!-- 5. Furto e Vandalismo -->
   <a id="card-furto-vandalismo" href="https://spi-tel.github.io/Furto-e-Vandalismo/" class="card" target="_blank">
-    <span id="badge-furto-vandalismo" class="badge-contador" data-valor="0"></span>
+    <span id="badge-furto-vandalismo" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #ff9900; filter: drop-shadow(0 0 8px rgba(255, 153, 0, 0.6));">
       <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
       <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -561,7 +545,7 @@
 
   <!-- 6. TA - Causa Perda -->
   <a id="card-causas-perda-tas" href="https://spi-tel.github.io/Causas-Perca-TAs/" class="card" target="_blank">
-    <span id="badge-causas-perda-tas" class="badge-contador" data-valor="0"></span>
+    <span id="badge-causas-perda-tas" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
       <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
@@ -573,7 +557,7 @@
 
   <!-- 7. TAs Online (Ícone Verde) -->
   <a id="card-tas-online" href="https://spi-tel.github.io/Portal-TAs-Online/" class="card" target="_blank">
-    <span id="badge-tas-online" class="badge-contador" data-valor="0"></span>
+    <span id="badge-tas-online" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="2" width="20" height="20" rx="6" ry="6" stroke="#00e676" stroke-opacity="0.35" stroke-width="1.2"></rect>
       <circle cx="12" cy="12" r="1.6" fill="#00e676" stroke="#00e676"></circle>
@@ -587,7 +571,7 @@
 
   <!-- 8. HL5 -->
   <a id="card-hl5" href="https://spi-tel.github.io/HL5/" class="card" target="_blank">
-    <span id="badge-hl5" class="badge-contador" data-valor="0"></span>
+    <span id="badge-hl5" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2L5 22h14L12 2z"></path>
       <path d="M7 17h10"></path>
@@ -603,7 +587,7 @@
 
   <!-- 9. USCA - Modernização -->
   <a id="card-usca" href="https://spi-tel.github.io/Moderniza-o-USCA/" class="card" target="_blank">
-    <span id="badge-usca" class="badge-contador" data-valor="0"></span>
+    <span id="badge-usca" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
       <circle cx="8.5" cy="8.5" r="1.5"></circle>
@@ -614,7 +598,7 @@
 
   <!-- 10. Preventivas -->
   <a id="card-preventivas" href="https://spi-tel.github.io/Preventivas/" class="card" target="_blank">
-    <span id="badge-preventivas" class="badge-contador" data-valor="0"></span>
+    <span id="badge-preventivas" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
     </svg>
@@ -625,7 +609,7 @@
 
   <!-- 11. Projetos Especiais (Liberado para TODOS os perfis) -->
   <a id="card-projetos-especiais" href="https://spi-tel.github.io/Projetos-Especiais/" class="card" target="_blank">
-    <span id="badge-projetos-especiais" class="badge-contador" data-valor="0"></span>
+    <span id="badge-projetos-especiais" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
       <path d="M2 17l10 5 10-5"></path>
@@ -636,7 +620,7 @@
 
   <!-- 12. Histórico Volumetria (Exclusivo para Gerente e Administrador) -->
   <a id="card-historico-volumetria" href="https://spi-tel.github.io/Historico_SLA/" class="card" target="_blank">
-    <span id="badge-historico-volumetria" class="badge-contador" data-valor="0"></span>
+    <span id="badge-historico-volumetria" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 3v18h18"></path>
       <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
@@ -647,7 +631,7 @@
 
   <!-- 13. Compras (SC) (Exclusivo para Gerente e Administrador) -->
   <a id="card-compras-sc" href="https://spi-tel.github.io/Compras/" class="card" target="_blank">
-    <span id="badge-compras-sc" class="badge-contador" data-valor="0"></span>
+    <span id="badge-compras-sc" class="badge-contador"></span>
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="9" cy="21" r="1"></circle>
       <circle cx="20" cy="21" r="1"></circle>
@@ -724,7 +708,6 @@
   document.getElementById("nome-usuario").innerText = `Olá, ${usuarioLogado}`;
   document.getElementById("perfil-usuario").innerText = perfilUsuario || "Colaborador";
   
-  // Exibição do Último Acesso
   const elUltimoAcesso = document.getElementById("info-ultimo-acesso");
   if (ultimoAcesso && ultimoAcesso !== "null" && ultimoAcesso !== "undefined") {
     elUltimoAcesso.innerText = `Último acesso: ${ultimoAcesso}`;
@@ -758,36 +741,72 @@
     const badge = document.getElementById(idBadge);
     if (!badge) return;
     const valorNum = parseInt(quantidade, 10) || 0;
-    badge.setAttribute("data-valor", valorNum);
     badge.innerText = valorNum > 0 ? valorNum : "";
   }
 
-  // Carrega os valores iniciais (lê do localStorage caso os sub-portais gravem lá, ou inicia zerado)
-  function carregarContadoresIniciais() {
-    const contadores = {
-      "badge-desempenho-regionais": localStorage.getItem("qtd_desempenho_regionais") || 0,
-      "badge-horas-extras": localStorage.getItem("qtd_horas_extras") || 0,
-      "badge-controle-gmg": localStorage.getItem("qtd_controle_gmg") || 0,
-      "badge-nc-cor": localStorage.getItem("qtd_nc_cor") || 0,
-      "badge-furto-vandalismo": localStorage.getItem("qtd_furto_vandalismo") || 0,
-      "badge-causas-perda-tas": localStorage.getItem("qtd_causas_perda_tas") || 0,
-      "badge-tas-online": localStorage.getItem("qtd_tas_online") || 0,
-      "badge-hl5": localStorage.getItem("qtd_hl5") || 0,
-      "badge-usca": localStorage.getItem("qtd_usca") || 0,
-      "badge-preventivas": localStorage.getItem("qtd_preventivas") || 0,
-      "badge-projetos-especiais": localStorage.getItem("qtd_projetos_especiais") || 0,
-      "badge-historico-volumetria": localStorage.getItem("qtd_historico_volumetria") || 0,
-      "badge-compras-sc": localStorage.getItem("qtd_compras_sc") || 0
+  // Lê valores salvos no localStorage (caso algum sub-portal já tenha atualizado)
+  function carregarContadoresLocalStorage() {
+    const mapa = {
+      "badge-desempenho-regionais": localStorage.getItem("qtd_desempenho_regionais"),
+      "badge-horas-extras": localStorage.getItem("qtd_horas_extras"),
+      "badge-controle-gmg": localStorage.getItem("qtd_controle_gmg"),
+      "badge-nc-cor": localStorage.getItem("qtd_nc_cor"),
+      "badge-furto-vandalismo": localStorage.getItem("qtd_furto_vandalismo"),
+      "badge-causas-perda-tas": localStorage.getItem("qtd_causas_perda_tas"),
+      "badge-tas-online": localStorage.getItem("qtd_tas_online"),
+      "badge-hl5": localStorage.getItem("qtd_hl5"),
+      "badge-usca": localStorage.getItem("qtd_usca"),
+      "badge-preventivas": localStorage.getItem("qtd_preventivas"),
+      "badge-projetos-especiais": localStorage.getItem("qtd_projetos_especiais"),
+      "badge-historico-volumetria": localStorage.getItem("qtd_historico_volumetria"),
+      "badge-compras-sc": localStorage.getItem("qtd_compras_sc")
     };
 
-    for (const [id, qtd] of Object.entries(contadores)) {
-      definirContadorCard(id, qtd);
+    for (const [id, qtd] of Object.entries(mapa)) {
+      if (qtd) definirContadorCard(id, qtd);
     }
   }
 
-  carregarContadoresIniciais();
+  // =========================================================================
+  // 5. BUSCA AUTOMÁTICA NAS PLANILHAS GOOGLE (CSV) PARA PREENCHER OS CARDS
+  // =========================================================================
+  const CSV_COMPRAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfn6Ra2r7-hXrKjkSl1BVdZm57NEjZ4jH85aWrIZAnwoTTUaAx4Km2596IZceVqfLB--P7IKZV4Em3/pub?gid=1842816317&single=true&output=csv";
 
-  // 5. Feedback visual para cards em construção
+  function carregarDadosComprasSC() {
+    if (!document.getElementById("badge-compras-sc")) return;
+    Papa.parse(CSV_COMPRAS, {
+      download: true,
+      header: false,
+      skipEmptyLines: true,
+      complete: function(results) {
+        const linhas = results.data;
+        if (!linhas || linhas.length < 2) return;
+        const header = linhas[0];
+        const idxCodSC = header.findIndex(h => h && h.trim().toLowerCase() === "código sc");
+        const idxNumPed = header.findIndex(h => h && h.trim().toLowerCase() === "nº pedido");
+        const cSC = idxCodSC !== -1 ? idxCodSC : 0;
+        const cPed = idxNumPed !== -1 ? idxNumPed : 56;
+
+        const scsPendentes = new Set();
+        linhas.slice(1).forEach(r => {
+          const cod = (r[cSC] || "").trim();
+          const ped = (r[cPed] || "").trim();
+          if (cod && !ped) {
+            scsPendentes.add(cod);
+          }
+        });
+
+        definirContadorCard("badge-compras-sc", scsPendentes.size);
+        localStorage.setItem("qtd_compras_sc", scsPendentes.size);
+      }
+    });
+  }
+
+  // Executa o carregamento ao abrir o painel
+  carregarContadoresLocalStorage();
+  carregarDadosComprasSC();
+
+  // 6. Feedback visual para cards em construção
   let toastTimer;
   function moduloEmConstrucao(nomeModulo) {
     const toast = document.getElementById("toast-construcao");
@@ -802,7 +821,7 @@
     }, 3500);
   }
 
-  // 6. Logout seguro
+  // 7. Logout seguro
   function logout() {
     localStorage.removeItem("usuario_logado");
     localStorage.removeItem("perfil_usuario");
